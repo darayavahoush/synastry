@@ -271,13 +271,14 @@ nav button.sel{color:var(--gold);background:rgba(205,164,94,.12)}
 <!-- Live sync: fill in FIREBASE_CONFIG below (see README) to turn this on. Until then the app runs fine offline, using the copy/paste code. -->
 <script src="https://www.gstatic.com/firebasejs/10.13.0/firebase-app-compat.js"></script>
 <script src="https://www.gstatic.com/firebasejs/10.13.0/firebase-database-compat.js"></script>
-<!-- Push notifications: fill in ONESIGNAL_APP_ID below (see README) to turn this on. Until then reminders fire locally when either of you opens the app. -->
-<script src="https://cdn.onesignal.com/sdks/OneSignalSDK.js" defer></script>
+<!-- Push: set ONESIGNAL_APP_ID below to turn on real background push. Until then reminders fire locally when the app opens. -->
+<script src="https://cdn.onesignal.com/sdks/web/v16/OneSignalSDK.page.js" defer></script>
 <script src="data.js"></script>
 <script>
 /* ====== fill these two in, see README ====== */
 const FIREBASE_CONFIG={apiKey:"AIzaSyC1SNEU0nT9b7WPTIGd1BO5rqegrrWtfqQ",authDomain:"synastry-e0bff.firebaseapp.com",databaseURL:"https://synastry-e0bff-default-rtdb.asia-southeast1.firebasedatabase.app",projectId:"synastry-e0bff",storageBucket:"synastry-e0bff.firebasestorage.app",messagingSenderId:"51129364913",appId:"1:51129364913:web:0289cc589a9e6662f30d90"};
 const ONESIGNAL_APP_ID="PASTE_ME";
+const HAS_OS=ONESIGNAL_APP_ID!=="PASTE_ME";
 /* ============================================ */
 
 const KEY="syn_state_v1",LK="syn_me",TK="syn_theme";
@@ -318,8 +319,8 @@ function dayDiff(a,b){return Math.round((new Date(b+"T00:00")-new Date(a+"T00:00
 
 /* ---------- notifications ---------- */
 function enableNotifs(){
-  if(typeof OneSignal!=="undefined"&&ONESIGNAL_APP_ID!=="PASTE_ME"){
-    OneSignal.push(()=>OneSignal.showSlidedownPrompt());
+  if(HAS_OS){
+    OneSignalDeferred.push(async OS=>{try{await OS.Notifications.requestPermission()}catch(e){}renderNotifStatus()});
     return;
   }
   if(!("Notification" in window))return alert("This browser can't do notifications.");
@@ -329,19 +330,28 @@ function enableNotifs(){
   });
 }
 function maybeDailyNudge(){
+  if(HAS_OS)return;
   if(localStorage.getItem("syn_notif")!=="1"||!("Notification" in window)||Notification.permission!=="granted")return;
   const last=localStorage.getItem("syn_nudge_day");const d=today();if(last===d)return;
   localStorage.setItem("syn_nudge_day",d);
   new Notification("Synastry",{body:FORECASTS[(dayN()+hash(S.names.a+S.names.b))%FORECASTS.length]});
 }
 function renderNotifStatus(){
-  const onesig=typeof OneSignal!=="undefined"&&ONESIGNAL_APP_ID!=="PASTE_ME";
-  const granted=("Notification" in window)&&Notification.permission==="granted"&&localStorage.getItem("syn_notif")==="1";
-  notifstat.textContent=onesig?"Real background push is on via OneSignal.":
-    granted?"On — you'll get a nudge each day you open the app (no background push configured).":
+  const perm=("Notification" in window)?Notification.permission:"unsupported";
+  if(HAS_OS){
+    const on=perm==="granted";
+    notifstat.textContent=on?"Push is on — a note from the stars finds you each day, even when the app is closed.":
+      perm==="denied"?"Notifications are blocked — allow them in your browser or phone settings, then come back.":
+      "Turn this on to get a daily note from the stars, even when the app is closed. (iPhone: add the app to your Home Screen first.)";
+    notifbtn.textContent=on?"Reminders on ✦":"Turn on reminders";
+    notifbtn.disabled=on;
+    return;
+  }
+  const granted=perm==="granted"&&localStorage.getItem("syn_notif")==="1";
+  notifstat.textContent=granted?"On — you'll get a nudge each day you open the app (no background push configured).":
     "Get a nudge once a day. Background push needs OneSignal — see README.";
-  notifbtn.textContent=granted||onesig?"Reminders on":"Turn on reminders";
-  notifbtn.disabled=granted&&!onesig;
+  notifbtn.textContent=granted?"Reminders on":"Turn on reminders";
+  notifbtn.disabled=granted;
 }
 
 /* ---------- live sync (Firebase Realtime Database) ---------- */
@@ -502,10 +512,12 @@ function render(){
 document.querySelectorAll("nav button").forEach(b=>b.onclick=()=>{view=b.dataset.v;
   document.querySelectorAll("nav button").forEach(x=>x.classList.remove("sel"));b.classList.add("sel");render();scrollTo(0,0)});
 if("serviceWorker" in navigator)addEventListener("load",()=>navigator.serviceWorker.register("sw.js").catch(()=>{}));
-if(typeof OneSignal!=="undefined"&&ONESIGNAL_APP_ID!=="PASTE_ME"){
-  window.OneSignalDeferred=window.OneSignalDeferred||[];
-  OneSignalDeferred.push(os=>os.init({appId:ONESIGNAL_APP_ID}));
-}
+window.OneSignalDeferred=window.OneSignalDeferred||[];
+if(HAS_OS)OneSignalDeferred.push(async OS=>{
+  const base=location.pathname.replace(/[^/]*$/,"");
+  await OS.init({appId:ONESIGNAL_APP_ID,serviceWorkerPath:"sw.js",serviceWorkerParam:{scope:base}});
+  renderNotifStatus();
+});
 render();
 if(S.names.a)syncInit();
 maybeDailyNudge();

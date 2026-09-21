@@ -1,0 +1,48 @@
+name: Daily stars push
+
+on:
+  schedule:
+    - cron: "30 2 * * *"   # 02:30 UTC = 8:00 AM IST — change to taste
+  workflow_dispatch:        # lets you press "Run workflow" to test it right now
+
+jobs:
+  send:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Send today's push
+        env:
+          OS_APP_ID: ${{ secrets.ONESIGNAL_APP_ID }}
+          OS_KEY: ${{ secrets.ONESIGNAL_API_KEY }}
+          SITE: https://${{ github.repository_owner }}.github.io/us/
+        run: |
+          TITLES=(
+            "✦ your forecast has arrived"
+            "☾ the stars have notes"
+            "✧ a message from the heavens"
+            "⚶ today's reading is in"
+            "✦ the cosmos would like a word"
+          )
+          LINES=(
+            "Mercury is doing something. Come see what."
+            "Today's advice is short. Your patience should match it."
+            "The stars have opinions about you two. Mild ones."
+            "A question is waiting. So is your streak."
+            "Your streak is watching. Fondly, but still."
+            "Someone may have checked in already. Go find out."
+            "The oracle was consulted. It said 'tap here'."
+            "Fate left something for you. Open when ready."
+          )
+          D=$(( $(date +%s) / 86400 ))
+          T="${TITLES[$(( D % ${#TITLES[@]} ))]}"
+          L="${LINES[$(( D % ${#LINES[@]} ))]}"
+
+          BODY=$(jq -n \
+            --arg app "$OS_APP_ID" --arg t "$T" --arg c "$L" \
+            --arg url "$SITE" --arg icon "${SITE}icon.png" \
+            '{app_id:$app, target_channel:"push", included_segments:["Subscribed Users"],
+              headings:{en:$t}, contents:{en:$c}, url:$url, chrome_web_icon:$icon}')
+
+          curl -sS -X POST "https://api.onesignal.com/notifications" \
+            -H "Content-Type: application/json; charset=utf-8" \
+            -H "Authorization: Key $OS_KEY" \
+            -d "$BODY"
