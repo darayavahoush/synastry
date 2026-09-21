@@ -13,8 +13,8 @@
 <link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400;0,9..144,600;1,9..144,500;1,9..144,600&family=Outfit:wght@400;500;600;700&display=swap" rel="stylesheet">
 <style>
 :root{box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px);
---bg:#140f22;--bg2:#1d1636;--ink:#f4ecdc;--soft:#a292ae;--line:#2e2549;--gold:#cda45e;--goldB:#eccb8a;--rose:#b6607a}
-:root[data-theme=light]{--bg:#f6f0e2;--bg2:#fffaf1;--ink:#251a35;--soft:#7c6f8a;--line:#e6dac6;--gold:#8a6420;--goldB:#a97f2e;--rose:#8a3247}
+--bg:#140f22;--bg2:#1d1636;--ink:#f4ecdc;--soft:#a292ae;--line:#2e2549;--gold:#cda45e;--goldB:#eccb8a;--rose:#b6607a;--olive:#a3ad6e;--marble:#ffffff08}
+:root[data-theme=light]{--bg:#f6f0e2;--bg2:#fffaf1;--ink:#251a35;--soft:#7c6f8a;--line:#e6dac6;--gold:#8a6420;--goldB:#a97f2e;--rose:#8a3247;--olive:#5c6a37;--marble:#00000006}
 *,*::before,*::after{box-sizing:border-box}
 html{height:100%;scroll-padding-top:env(safe-area-inset-top,0px)}
 body{margin:0;min-height:100%;background:var(--bg);color:var(--ink);
@@ -50,7 +50,49 @@ background:
 line-height:1.35;margin:0;max-width:34ch}
 
 /* section label */
-.label{font-family:Fraunces,Georgia,serif;font-style:italic;color:var(--gold);font-size:.9rem;margin:0 0 10px}
+.label{font-family:Fraunces,Georgia,serif;font-style:italic;color:var(--gold);font-size:.9rem;margin:0 0 10px;
+display:flex;align-items:center;gap:7px}
+.label svg{width:13px;height:13px;color:var(--olive);flex:none}
+
+/* greek key meander — used once, as a threshold marker at the top of the oracle panel */
+.gkey{height:9px;margin:0 -18px;background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='36' height='9' viewBox='0 0 36 9'%3E%3Cpath d='M0 9V3h6V0h12v6h6V3h6v6h6V0' fill='none' stroke='%23cda45e' stroke-width='1.3'/%3E%3C/svg%3E");
+background-repeat:repeat-x;background-size:36px 9px;opacity:.55}
+:root[data-theme=light] .gkey{background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='36' height='9' viewBox='0 0 36 9'%3E%3Cpath d='M0 9V3h6V0h12v6h6V3h6v6h6V0' fill='none' stroke='%238a6420' stroke-width='1.3'/%3E%3C/svg%3E")}
+
+/* myth tablet */
+.myth{position:relative;display:flex;gap:12px;align-items:flex-start;padding:15px 17px;margin:13px -18px 0;
+background:linear-gradient(180deg,rgba(163,173,110,.1),transparent);border-top:1px solid var(--line);border-bottom:1px solid var(--line)}
+.myth svg{width:22px;height:22px;color:var(--olive);flex:none;margin-top:2px}
+.myth .mn{font-family:Fraunces,Georgia,serif;font-style:italic;font-weight:600;font-size:1rem;margin:0 0 3px}
+.myth .mt{font-size:.82rem;color:var(--soft);margin:0}
+
+/* wreath around the streak number */
+.wreathwrap{display:flex;align-items:center;justify-content:center;gap:10px}
+.wreathwrap svg{width:30px;height:52px;color:var(--olive);flex:none}
+.wreathwrap svg.r{transform:scaleX(-1)}
+
+/* mood pills */
+.moodrow{display:flex;flex-wrap:wrap;gap:8px;margin-top:4px}
+.moodpill{border:1px solid var(--line);background:var(--bg);color:var(--soft);border-radius:999px;
+font-family:Outfit;font-weight:600;font-size:.78rem;padding:8px 14px;cursor:pointer;margin:0}
+.moodpill.sel{background:var(--rose);border-color:var(--rose);color:#fff}
+.moodpill:disabled{opacity:.55;cursor:default}
+.theirmood{display:inline-flex;align-items:center;gap:7px;border:1px solid var(--line);border-radius:999px;
+padding:6px 13px 6px 6px;font-size:.8rem;color:var(--ink);margin-top:2px}
+.theirmood i{width:22px;height:22px;border-radius:50%;background:var(--bg2);display:grid;place-items:center;
+font-style:normal;font-size:.85rem}
+
+/* insights */
+.insrow{display:flex;justify-content:space-between;gap:12px;padding:10px 0;border-bottom:1px solid var(--line);font-size:.86rem}
+.insrow:last-child{border-bottom:0}
+.insrow span:first-child{color:var(--soft)}
+.insrow b{font-family:Fraunces,Georgia,serif;font-style:italic;text-align:right}
+
+/* sync + notif status */
+.pillrow{display:flex;align-items:center;gap:8px;margin:2px 0 12px}
+.syncdot{width:8px;height:8px;border-radius:50%;background:var(--soft);flex:none}
+.syncdot.live{background:#7bbf6a;box-shadow:0 0 0 3px rgba(123,191,106,.18)}
+.syncdot.off{background:var(--rose)}
 
 /* cards */
 .card{background:var(--bg2);border:1px solid var(--line);border-radius:18px;padding:19px;margin-bottom:13px}
@@ -154,9 +196,24 @@ nav button.sel{color:var(--gold);background:rgba(205,164,94,.12)}
       </svg>
       <p class="datestr" id="dtx"></p>
       <p class="forecast" id="fc"></p>
+      <div class="myth">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M12 21c0-6-3-8-3-13a3 3 0 0 1 6 0c0 5-3 7-3 13z"/><path d="M12 8c2-2 3-5 2-7-3 1-4 4-2 7z"/><path d="M12 8c-2-2-3-5-2-7 3 1 4 4 2 7z"/></svg>
+        <div><p class="mn" id="mpn"></p><p class="mt" id="mpt"></p></div>
+      </div>
     </div>
+    <div class="gkey"></div>
     <div class="card"><p class="label">Today's question</p><p class="q" id="qt"></p><div id="mine"></div><div id="theirs"></div></div>
-    <div class="card"><h2>Alignment streak</h2><p class="muted" id="stx"></p><div class="big" id="stk">0</div>
+    <div class="card"><p class="label">Right now</p>
+      <p class="muted" style="margin-bottom:2px">How are you, actually?</p>
+      <div class="moodrow" id="moodpick"></div>
+      <div id="theirmood" style="margin-top:12px"></div>
+    </div>
+    <div class="card"><h2>Alignment streak</h2><p class="muted" id="stx"></p>
+      <div class="wreathwrap">
+        <svg viewBox="0 0 30 52" fill="none" stroke="currentColor" stroke-width="1.4"><path d="M20 4C12 10 8 24 12 44M20 4c-3 3-4 7-2 9M17 12c-3 1-5 4-4 7M15 20c-3 1-5 4-4 7M13 28c-3 1-5 4-3 7M12 36c-2 1-4 3-3 6"/></svg>
+        <div class="big" id="stk">0</div>
+        <svg class="r" viewBox="0 0 30 52" fill="none" stroke="currentColor" stroke-width="1.4"><path d="M20 4C12 10 8 24 12 44M20 4c-3 3-4 7-2 9M17 12c-3 1-5 4-4 7M15 20c-3 1-5 4-4 7M13 28c-3 1-5 4-3 7M12 36c-2 1-4 3-3 6"/></svg>
+      </div>
       <div class="days" id="dys"></div><button id="cib" onclick="checkin()">I'm thinking of you</button></div>
   </section>
 
@@ -186,10 +243,18 @@ nav button.sel{color:var(--gold);background:rgba(205,164,94,.12)}
     <div class="card"><h2>Key dates</h2><div id="el"></div>
       <div class="row" style="margin-top:15px"><input id="eL" placeholder="Anniversary"><input id="eD" type="date"></div>
       <button onclick="addEv()">Add</button></div>
+    <div class="card"><h2>What we're learning</h2>
+      <p class="muted" style="margin-bottom:2px">Real numbers, pulled from your own history.</p>
+      <div id="ins" style="margin-top:8px"></div>
+    </div>
     <div class="card"><h2>Sync your charts</h2>
-      <p class="muted">Everything lives on your phone only. Copy your code, paste it on the other phone to merge.</p>
+      <div class="pillrow"><span class="syncdot" id="syncdot"></span><span class="muted" id="syncstat">Checking sync…</span></div>
+      <p class="muted">Copy your code, paste it on the other phone to merge — always works, no setup.</p>
       <button onclick="exp()">Copy my code</button> <button class="ghost" onclick="imp()">Paste theirs</button>
       <p class="muted" id="who2" style="margin-top:14px"></p><button class="ghost" onclick="swap()">Switch person</button></div>
+    <div class="card"><h2>Daily reminders</h2>
+      <p class="muted" id="notifstat">Get a nudge once a day.</p>
+      <button class="ghost" id="notifbtn" onclick="enableNotifs()">Turn on reminders</button></div>
   </section>
 </div>
 
@@ -203,10 +268,20 @@ nav button.sel{color:var(--gold);background:rgba(205,164,94,.12)}
   <button data-v="us"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><circle cx="9.5" cy="12" r="6"/><circle cx="14.5" cy="12" r="6"/></svg>Us</button>
 </nav>
 
+<!-- Live sync: fill in FIREBASE_CONFIG below (see README) to turn this on. Until then the app runs fine offline, using the copy/paste code. -->
+<script src="https://www.gstatic.com/firebasejs/10.13.0/firebase-app-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.13.0/firebase-database-compat.js"></script>
+<!-- Push notifications: fill in ONESIGNAL_APP_ID below (see README) to turn this on. Until then reminders fire locally when either of you opens the app. -->
+<script src="https://cdn.onesignal.com/sdks/OneSignalSDK.js" defer></script>
 <script src="data.js"></script>
 <script>
+/* ====== fill these two in, see README ====== */
+const FIREBASE_CONFIG={apiKey:"PASTE_ME",authDomain:"PASTE_ME",databaseURL:"PASTE_ME",projectId:"PASTE_ME",storageBucket:"PASTE_ME",messagingSenderId:"PASTE_ME",appId:"PASTE_ME"};
+const ONESIGNAL_APP_ID="PASTE_ME";
+/* ============================================ */
+
 const KEY="syn_state_v1",LK="syn_me",TK="syn_theme";
-let S={names:{a:"",b:""},daily:{},notes:[],marks:{},events:[],best:{},photos:[]},me=localStorage.getItem(LK),view="today";
+let S={names:{a:"",b:""},daily:{},notes:[],marks:{},events:[],best:{},photos:[],moods:{}},me=localStorage.getItem(LK),view="today";
 let G=null;
 const today=()=>new Date().toLocaleDateString("en-CA");
 const other=()=>me==="a"?"b":"a";
@@ -214,8 +289,95 @@ const nm=k=>S.names[k]||(k==="a"?"You":"Them");
 const esc=s=>String(s).replace(/[<>&"]/g,c=>({"<":"&lt;",">":"&gt;","&":"&amp;",'"':"&quot;"}[c]));
 const dayN=()=>{const d=new Date();return Math.floor(Date.UTC(d.getFullYear(),d.getMonth(),d.getDate())/864e5)};
 function hash(s){let h=0;for(let i=0;i<s.length;i++){h=(h<<5)-h+s.charCodeAt(i);h|=0}return Math.abs(h)}
-function save(){try{localStorage.setItem(KEY,JSON.stringify(S))}catch(e){alert("Storage is full — delete an old photo to make room.")}render()}
+function save(){try{localStorage.setItem(KEY,JSON.stringify(S))}catch(e){alert("Storage is full — delete an old photo to make room.")}syncPush();render()}
 try{const l=localStorage.getItem(KEY);if(l)S=Object.assign(S,JSON.parse(l))}catch(e){}
+if(!S.moods)S.moods={};
+
+/* ---------- mood ---------- */
+function logMood(k){const d=today();S.moods[d]=S.moods[d]||{};S.moods[d][me]=k;save()}
+const moodLabel=k=>{const m=MOODS.find(x=>x.k===k);return m?m.l:k};
+const moodEmoji={joy:"😊",content:"🙂",tired:"😴",anxious:"😬",sad:"😔",angry:"😤"};
+
+/* ---------- insights (real numbers from S, no guessing) ---------- */
+function computeInsights(){
+  const rows=[];
+  const cnt={a:{},b:{}};let notesA=0,notesB=0;
+  for(const d in S.moods){["a","b"].forEach(p=>{const k=S.moods[d][p];if(k)cnt[p][k]=(cnt[p][k]||0)+1})}
+  S.notes.forEach(n=>n.by==="a"?notesA++:notesB++);
+  const top=p=>{const c=cnt[p];const k=Object.keys(c).sort((x,y)=>c[y]-c[x])[0];return k?moodLabel(k):"—"};
+  if(Object.keys(cnt.a).length||Object.keys(cnt.b).length)
+    rows.push(["Most common mood",nm("a")+": "+top("a")+" · "+nm("b")+": "+top("b")]);
+  if(S.notes.length)rows.push(["Notes written",nm("a")+": "+notesA+" · "+nm("b")+": "+notesB]);
+  let longest=0,run=0,c=new Date();const dates=Object.keys(S.marks).filter(d=>S.marks[d].a&&S.marks[d].b).sort();
+  dates.forEach((d,i)=>{if(i===0||dayDiff(dates[i-1],d)===1)run++;else run=1;if(run>longest)longest=run});
+  rows.push(["Longest streak",longest?longest+" days":"Not yet — check in together"]);
+  rows.push(["Photos saved",String((S.photos||[]).length)]);
+  return rows;
+}
+function dayDiff(a,b){return Math.round((new Date(b+"T00:00")-new Date(a+"T00:00"))/864e5)}
+
+/* ---------- notifications ---------- */
+function enableNotifs(){
+  if(typeof OneSignal!=="undefined"&&ONESIGNAL_APP_ID!=="PASTE_ME"){
+    OneSignal.push(()=>OneSignal.showSlidedownPrompt());
+    return;
+  }
+  if(!("Notification" in window))return alert("This browser can't do notifications.");
+  Notification.requestPermission().then(p=>{
+    localStorage.setItem("syn_notif",p==="granted"?"1":"0");renderNotifStatus();
+    if(p==="granted")new Notification("Synastry",{body:"Reminders are on — you'll get a line each day you open the app."});
+  });
+}
+function maybeDailyNudge(){
+  if(localStorage.getItem("syn_notif")!=="1"||!("Notification" in window)||Notification.permission!=="granted")return;
+  const last=localStorage.getItem("syn_nudge_day");const d=today();if(last===d)return;
+  localStorage.setItem("syn_nudge_day",d);
+  new Notification("Synastry",{body:FORECASTS[(dayN()+hash(S.names.a+S.names.b))%FORECASTS.length]});
+}
+function renderNotifStatus(){
+  const onesig=typeof OneSignal!=="undefined"&&ONESIGNAL_APP_ID!=="PASTE_ME";
+  const granted=("Notification" in window)&&Notification.permission==="granted"&&localStorage.getItem("syn_notif")==="1";
+  notifstat.textContent=onesig?"Real background push is on via OneSignal.":
+    granted?"On — you'll get a nudge each day you open the app (no background push configured).":
+    "Get a nudge once a day. Background push needs OneSignal — see README.";
+  notifbtn.textContent=granted||onesig?"Reminders on":"Turn on reminders";
+  notifbtn.disabled=granted&&!onesig;
+}
+
+/* ---------- live sync (Firebase Realtime Database) ---------- */
+let fbRef=null,fbReady=false,fbApplyingRemote=false;
+function syncInit(){
+  if(FIREBASE_CONFIG.apiKey==="PASTE_ME"||!S.names.a){renderSyncStatus(false,"offline");return}
+  try{
+    if(!firebase.apps.length)firebase.initializeApp(FIREBASE_CONFIG);
+    const roomId="room_"+hash(S.names.a+"&"+S.names.b+"|synastry-salt");
+    fbRef=firebase.database().ref("rooms/"+roomId);
+    fbRef.on("value",snap=>{
+      const remote=snap.val();fbReady=true;renderSyncStatus(true,"live");
+      if(!remote)return;
+      fbApplyingRemote=true;
+      S.names=remote.names||S.names;
+      ["daily","marks","moods"].forEach(k=>{for(const d in remote[k]||{})S[k][d]=Object.assign({},S[k][d],remote[k][d])});
+      const sn={};S.notes=S.notes.concat(remote.notes||[]).filter(n=>sn[n.at+n.t]?0:(sn[n.at+n.t]=1)).sort((x,y)=>y.at-x.at).slice(0,80);
+      const ev={};S.events=(remote.events||[]).concat(S.events).filter(e=>ev[e.l+e.d]?0:(ev[e.l+e.d]=1)).sort((x,y)=>x.d<y.d?-1:1);
+      S.best=Object.assign({},remote.best,S.best);
+      try{localStorage.setItem(KEY,JSON.stringify(S))}catch(e){}
+      fbApplyingRemote=false;render();
+    },()=>renderSyncStatus(false,"error"));
+  }catch(e){renderSyncStatus(false,"error")}
+}
+function syncPush(){
+  if(!fbRef||!fbReady||fbApplyingRemote)return;
+  const{photos,...light}=S; // photos stay local/paste-code only — keeps the free tier happy
+  fbRef.set(light).catch(()=>renderSyncStatus(false,"error"));
+}
+function renderSyncStatus(on,mode){
+  if(!syncdot)return;
+  syncdot.className="syncdot"+(mode==="live"?" live":mode==="error"?" off":"");
+  syncstat.textContent=mode==="live"?"Live — changes appear on both phones automatically.":
+    mode==="error"?"Sync configured but couldn't connect — falling back to the code below.":
+    "Not set up yet — using the copy/paste code below. See README to go live.";
+}
 const curTheme=localStorage.getItem(TK)||"dark";
 document.documentElement.setAttribute("data-theme",curTheme);
 function paintThemeIcon(){const light=document.documentElement.getAttribute("data-theme")==="light";
@@ -226,7 +388,7 @@ tglTheme.onclick=()=>{const t=document.documentElement.getAttribute("data-theme"
   document.documentElement.setAttribute("data-theme",t);localStorage.setItem(TK,t);paintThemeIcon()};
 
 function setup(k){const a=nA.value.trim(),b=nB.value.trim();if(!a||!b)return alert("Both names, please.");
-  S.names={a,b};me=k;localStorage.setItem(LK,k);save()}
+  S.names={a,b};me=k;localStorage.setItem(LK,k);save();syncInit()}
 function swap(){me=other();localStorage.setItem(LK,me);render()}
 function answer(){const t=document.getElementById("ans").value.trim();if(!t)return;
   const d=today();S.daily[d]=S.daily[d]||{};S.daily[d][me]=t;save()}
@@ -291,6 +453,7 @@ function render(){
   txtA.textContent=(S.names.a||"A")[0].toUpperCase();txtB.textContent=(S.names.b||"B")[0].toUpperCase();
   dtx.textContent=nm("a")+" & "+nm("b")+" \u2014 "+new Date().toLocaleDateString(undefined,{weekday:"long",month:"long",day:"numeric"});
   fc.textContent=FORECASTS[(dayN()+seed)%FORECASTS.length];
+  const mp=MYTH_PAIRS[seed%MYTH_PAIRS.length];mpn.textContent=mp.n;mpt.textContent=mp.t;
 
   const d=today(),e=S.daily[d]||{};
   qt.textContent=QS[dayN()%QS.length];
@@ -299,6 +462,13 @@ function render(){
   theirs.innerHTML=e[other()]?(e[me]?'<div class="reply"><div class="who">'+esc(nm(other()))+'</div>'+esc(e[other()])+'</div>'
     :'<p class="muted" style="margin-top:11px">'+esc(nm(other()))+' answered — write yours to see it.</p>')
     :'<p class="muted" style="margin-top:11px">Waiting on '+esc(nm(other()))+'.</p>';
+
+  const dmo=S.moods[d]||{};
+  moodpick.innerHTML=MOODS.map(m=>'<button class="moodpill'+(dmo[me]===m.k?" sel":"")+'"'+(dmo[me]?" disabled":"")+
+    ' onclick="logMood(\''+m.k+'\')">'+moodEmoji[m.k]+" "+m.l+'</button>').join("");
+  theirmood.innerHTML=dmo[other()]?'<div class="theirmood"><i>'+moodEmoji[dmo[other()]]+'</i>'+esc(nm(other()))+" is feeling "+moodLabel(dmo[other()]).toLowerCase()+'</div>'
+    :dmo[me]?'<p class="muted">Waiting on '+esc(nm(other()))+'.</p>':"";
+
   const n=streak();stk.textContent=n;
   stx.textContent=n===1?"1 day you've both checked in":n+" days in a row you've both checked in";
   let h="";const c=new Date();c.setDate(c.getDate()-6);
@@ -325,11 +495,20 @@ function render(){
     (n>0?n+(n===1?" day":" days"):n===0?"today!":Math.abs(n)+" ago")+'</b></div>'}).join("")
     :'<p class="muted">Add your anniversary, next date night, a trip.</p>';
   who2.textContent="Signed in as "+nm(me)+" on this phone.";
+
+  ins.innerHTML=computeInsights().map(r=>'<div class="insrow"><span>'+esc(r[0])+'</span><b>'+esc(r[1])+'</b></div>').join("");
+  renderNotifStatus();
 }
 document.querySelectorAll("nav button").forEach(b=>b.onclick=()=>{view=b.dataset.v;
   document.querySelectorAll("nav button").forEach(x=>x.classList.remove("sel"));b.classList.add("sel");render();scrollTo(0,0)});
 if("serviceWorker" in navigator)addEventListener("load",()=>navigator.serviceWorker.register("sw.js").catch(()=>{}));
+if(typeof OneSignal!=="undefined"&&ONESIGNAL_APP_ID!=="PASTE_ME"){
+  window.OneSignalDeferred=window.OneSignalDeferred||[];
+  OneSignalDeferred.push(os=>os.init({appId:ONESIGNAL_APP_ID}));
+}
 render();
+if(S.names.a)syncInit();
+maybeDailyNudge();
 </script>
 </body>
 </html>
