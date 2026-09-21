@@ -3,100 +3,165 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
-<title>Us</title>
-<meta name="theme-color" content="#c4657f">
+<title>Synastry</title>
+<meta name="theme-color" content="#140f22">
 <link rel="manifest" href="manifest.webmanifest">
 <link rel="apple-touch-icon" href="icon.png">
 <meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,600;9..144,700&family=Nunito:wght@400;600;800&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400;0,9..144,600;1,9..144,500;1,9..144,600&family=Outfit:wght@400;500;600;700&display=swap" rel="stylesheet">
 <style>
 :root{box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px);
---bg:#fdf5f1;--g1:#ffd9c9;--g2:#e7c8e8;--g3:#c9e4f0;--card:rgba(255,253,252,.72);--brd:rgba(196,101,127,.16);
---ink:#3a2730;--soft:#907781;--acc:#c4657f;--acc2:#e79a8c;--chip:rgba(196,101,127,.09);--sh:0 10px 34px rgba(150,80,100,.10)}
-@media(prefers-color-scheme:dark){:root:not([data-theme=light]){--bg:#171116;--g1:#3a1f2c;--g2:#241d3a;--g3:#10262f;
---card:rgba(44,33,40,.72);--brd:rgba(255,200,215,.14);--ink:#f5e9ec;--soft:#b49aa4;--acc:#f3a7ba;--acc2:#d98b7e;--chip:rgba(243,167,186,.12);--sh:0 10px 34px rgba(0,0,0,.35)}}
-:root[data-theme=dark]{--bg:#171116;--g1:#3a1f2c;--g2:#241d3a;--g3:#10262f;--card:rgba(44,33,40,.72);
---brd:rgba(255,200,215,.14);--ink:#f5e9ec;--soft:#b49aa4;--acc:#f3a7ba;--acc2:#d98b7e;--chip:rgba(243,167,186,.12);--sh:0 10px 34px rgba(0,0,0,.35)}
+--bg:#140f22;--bg2:#1d1636;--ink:#f4ecdc;--soft:#a292ae;--line:#2e2549;--gold:#cda45e;--goldB:#eccb8a;--rose:#b6607a}
+:root[data-theme=light]{--bg:#f6f0e2;--bg2:#fffaf1;--ink:#251a35;--soft:#7c6f8a;--line:#e6dac6;--gold:#8a6420;--goldB:#a97f2e;--rose:#8a3247}
 *,*::before,*::after{box-sizing:border-box}
 html{height:100%;scroll-padding-top:env(safe-area-inset-top,0px)}
-body{margin:0;min-height:100%;color:var(--ink);background:var(--bg);line-height:1.55;
-font-family:Nunito,ui-sans-serif,system-ui,-apple-system,"Segoe UI",sans-serif;-webkit-font-smoothing:antialiased;
-background-image:radial-gradient(60% 45% at 8% 0%,var(--g1) 0%,transparent 70%),radial-gradient(55% 45% at 100% 12%,var(--g2) 0%,transparent 70%),radial-gradient(70% 50% at 50% 100%,var(--g3) 0%,transparent 75%);
-background-attachment:fixed}
-.wrap{max-width:580px;margin:0 auto;padding:26px 18px 118px}
-h1{font-family:Fraunces,Georgia,serif;font-weight:700;font-size:1.85rem;margin:0;letter-spacing:-.01em}
-h2{font-family:Fraunces,Georgia,serif;font-weight:600;font-size:1.1rem;margin:0 0 10px}
-.sub{color:var(--soft);font-size:.85rem;margin:3px 0 20px}
-.card{background:var(--card);-webkit-backdrop-filter:blur(16px);backdrop-filter:blur(16px);
-border:1px solid var(--brd);border-radius:24px;padding:20px;margin-bottom:15px;box-shadow:var(--sh);animation:up .45s both}
-@keyframes up{from{opacity:0;transform:translateY(10px)}}
-.card:nth-child(2){animation-delay:.05s}.card:nth-child(3){animation-delay:.1s}
-.tag{display:inline-block;background:var(--chip);color:var(--acc);border-radius:999px;padding:4px 13px;
-font-size:.7rem;font-weight:800;letter-spacing:.1em;text-transform:uppercase;margin-bottom:12px}
-.q{font-family:Fraunces,Georgia,serif;font-size:1.28rem;line-height:1.38;margin:0 0 15px}
-textarea,input{width:100%;font:inherit;color:inherit;background:rgba(255,255,255,.4);border:1px solid var(--brd);
-border-radius:16px;padding:12px 14px;resize:vertical}
-@media(prefers-color-scheme:dark){textarea,input{background:rgba(0,0,0,.2)}}
-textarea{min-height:78px}
-input:focus,textarea:focus{outline:2px solid var(--acc2);outline-offset:1px}
-button{font:inherit;font-weight:800;cursor:pointer;border:0;border-radius:999px;color:#fff;padding:11px 22px;margin-top:11px;
-background:linear-gradient(135deg,var(--acc),var(--acc2));box-shadow:0 5px 16px rgba(196,101,127,.3);transition:.15s}
+body{margin:0;min-height:100%;background:var(--bg);color:var(--ink);
+font-family:Outfit,ui-sans-serif,system-ui,sans-serif;line-height:1.55;-webkit-font-smoothing:antialiased;
+transition:background .2s,color .2s}
+.serif{font-family:Fraunces,Georgia,serif}
+.wrap{max-width:600px;margin:0 auto;padding:0 18px 128px}
+
+/* header */
+header{display:flex;align-items:center;justify-content:space-between;padding:20px 2px 6px}
+header b{font-family:Fraunces,Georgia,serif;font-style:italic;font-weight:600;font-size:1.36rem;letter-spacing:-.01em}
+.tglTheme{width:34px;height:34px;border-radius:50%;border:1px solid var(--line);display:grid;place-items:center;
+background:var(--bg2);cursor:pointer;color:var(--soft);flex:none}
+.tglTheme svg{width:16px;height:16px}
+
+/* hero sky */
+.sky{position:relative;margin:6px -18px 0;padding:26px 26px 22px;overflow:hidden;
+background:
+  radial-gradient(120% 90% at 18% -10%,rgba(205,164,94,.16),transparent 60%),
+  radial-gradient(90% 70% at 95% 0%,rgba(182,96,122,.14),transparent 55%),
+  var(--bg)}
+:root[data-theme=light] .sky{background:
+  radial-gradient(120% 90% at 18% -10%,rgba(138,100,32,.10),transparent 60%),
+  radial-gradient(90% 70% at 95% 0%,rgba(138,50,71,.08),transparent 55%),
+  var(--bg)}
+.stars{position:absolute;inset:0;opacity:.8;pointer-events:none}
+.stars circle.dim{fill:var(--soft);opacity:.35}
+.stars circle.pt{fill:var(--gold)}
+.stars line{stroke:var(--gold);stroke-width:1;opacity:.55}
+.stars text{fill:var(--bg);font-family:Outfit;font-weight:700;font-size:9px}
+.datestr{position:relative;font-size:.72rem;color:var(--soft);margin:0 0 10px}
+.forecast{position:relative;font-family:Fraunces,Georgia,serif;font-style:italic;font-weight:500;font-size:1.5rem;
+line-height:1.35;margin:0;max-width:34ch}
+
+/* section label */
+.label{font-family:Fraunces,Georgia,serif;font-style:italic;color:var(--gold);font-size:.9rem;margin:0 0 10px}
+
+/* cards */
+.card{background:var(--bg2);border:1px solid var(--line);border-radius:18px;padding:19px;margin-bottom:13px}
+.card h2{font-family:Fraunces,Georgia,serif;font-weight:600;font-style:italic;font-size:1.08rem;margin:0 0 12px}
+.q{font-family:Fraunces,Georgia,serif;font-size:1.18rem;line-height:1.42;margin:0 0 14px}
+
+textarea,input{width:100%;font:inherit;color:var(--ink);background:var(--bg);border:1px solid var(--line);
+border-radius:12px;padding:12px 14px}
+textarea{min-height:74px;resize:vertical}
+input::placeholder,textarea::placeholder{color:var(--soft)}
+input:focus,textarea:focus{outline:none;border-color:var(--gold)}
+
+button{font-family:Outfit;font-weight:600;font-size:.86rem;cursor:pointer;border:0;border-radius:999px;
+background:linear-gradient(135deg,var(--gold),var(--goldB));color:var(--bg);padding:12px 20px;margin-top:12px;
+transition:transform .12s,opacity .12s;box-shadow:0 6px 16px rgba(205,164,94,.22)}
 button:active{transform:scale(.96)}
-button.ghost{background:var(--chip);color:var(--acc);box-shadow:none}
-.reply{background:var(--chip);border-radius:16px;padding:13px 15px;margin-top:11px}
-.who{font-size:.68rem;letter-spacing:.1em;text-transform:uppercase;color:var(--acc);font-weight:800}
-.muted{color:var(--soft);font-size:.88rem}
-.note{border-left:3px solid var(--acc2);padding:3px 0 3px 13px;margin:15px 0}
+button.ghost{background:transparent;color:var(--ink);border:1px solid var(--line);box-shadow:none}
+button.x{background:none;border:0;color:var(--soft);padding:0 4px;margin:0;box-shadow:none;font-size:.9rem}
+
+.reply{border-left:2px solid var(--gold);padding:3px 0 3px 14px;margin-top:12px}
+.who{font-size:.68rem;color:var(--gold);font-weight:600}
+.muted{color:var(--soft);font-size:.84rem}
+.note{border-bottom:1px solid var(--line);padding:14px 0}
+.note:last-child{border-bottom:0}
 .row{display:flex;gap:10px}.row>*{flex:1}
-.big{font-family:Fraunces,Georgia,serif;font-size:2.7rem;line-height:1;
-background:linear-gradient(135deg,var(--acc),var(--acc2));-webkit-background-clip:text;background-clip:text;color:transparent}
-.days{display:flex;gap:8px;margin-top:13px}
-.dot{width:29px;height:29px;border-radius:50%;background:var(--chip);display:grid;place-items:center;font-size:.7rem;font-weight:800;color:var(--soft)}
-.dot.on{background:linear-gradient(135deg,var(--acc),var(--acc2));color:#fff}
-.ev{display:flex;justify-content:space-between;align-items:baseline;padding:12px 0;border-bottom:1px solid var(--brd)}
+
+.big{font-family:Fraunces,Georgia,serif;font-style:italic;font-size:3rem;line-height:1;
+background:linear-gradient(135deg,var(--gold),var(--goldB));-webkit-background-clip:text;background-clip:text;color:transparent}
+.days{display:flex;gap:8px;margin-top:14px}
+.dot{width:28px;height:28px;border-radius:50%;border:1px solid var(--line);display:grid;place-items:center;
+font-size:.62rem;font-weight:600;color:var(--soft)}
+.dot.on{background:linear-gradient(135deg,var(--gold),var(--goldB));border-color:transparent;color:var(--bg)}
+
+.ev{display:flex;justify-content:space-between;align-items:baseline;padding:13px 0;border-bottom:1px solid var(--line)}
 .ev:last-child{border-bottom:0}
-.ev b{font-family:Fraunces,Georgia,serif;font-weight:700;color:var(--acc);white-space:nowrap;font-size:1.05rem}
-.x{background:none;color:var(--soft);padding:0 7px;margin:0;font-weight:400;box-shadow:none}
-.decks{display:grid;grid-template-columns:1fr 1fr;gap:12px}
-.deck{border:1px solid var(--brd);border-radius:20px;padding:16px;cursor:pointer;background:var(--chip);text-align:left}
-.deck b{display:block;font-family:Fraunces,Georgia,serif;font-size:1.02rem}
-.deck span{font-size:.76rem;color:var(--soft)}
-.opt{display:block;width:100%;text-align:left;background:rgba(255,255,255,.45);color:var(--ink);
-border:1px solid var(--brd);box-shadow:none;font-weight:600;margin-top:9px;padding:13px 16px;border-radius:16px}
-@media(prefers-color-scheme:dark){.opt{background:rgba(0,0,0,.2)}}
-.opt.good{background:#2fa36b;color:#fff;border-color:transparent}
-.opt.bad{background:#d75f6a;color:#fff;border-color:transparent}
-.bar{height:6px;background:var(--chip);border-radius:9px;overflow:hidden;margin-bottom:16px}
-.bar i{display:block;height:100%;background:linear-gradient(90deg,var(--acc),var(--acc2));transition:.3s}
-nav{position:fixed;left:0;right:0;bottom:0;display:flex;z-index:9;background:var(--card);
--webkit-backdrop-filter:blur(18px);backdrop-filter:blur(18px);border-top:1px solid var(--brd);
-padding-top:7px;padding-bottom:calc(env(safe-area-inset-bottom,0px) + 7px)}
-nav button{flex:1;background:none;color:var(--soft);font-size:.72rem;font-weight:800;border-radius:0;
-padding:6px 0;margin:0;box-shadow:none;letter-spacing:.02em}
-nav button.sel{color:var(--acc)}
-nav i{display:block;font-style:normal;font-size:1.25rem;margin-bottom:2px}
+.ev b{font-family:Fraunces,Georgia,serif;font-style:italic;color:var(--gold);white-space:nowrap;font-size:1.02rem;font-weight:600}
+
+.decks{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.deck{border:1px solid var(--line);border-radius:16px;padding:16px;cursor:pointer;background:var(--bg2);text-align:left;color:var(--ink)}
+.deck b{display:block;font-family:Fraunces,Georgia,serif;font-style:italic;font-size:1.02rem;font-weight:600}
+.deck span{font-size:.72rem;color:var(--soft)}
+.opt{display:block;width:100%;text-align:left;background:var(--bg);color:var(--ink);border:1px solid var(--line);
+box-shadow:none;font-weight:500;font-size:.92rem;border-radius:12px;margin-top:9px;padding:13px 16px}
+.opt.good{background:var(--gold);color:var(--bg);border-color:var(--gold)}
+.opt.bad{background:var(--rose);color:#fff;border-color:var(--rose)}
+.bar{height:3px;background:var(--line);margin-bottom:18px;border-radius:3px;overflow:hidden}
+.bar i{display:block;height:100%;background:var(--gold);transition:.3s}
+
+.grid{display:grid;grid-template-columns:1fr 1fr;gap:9px}
+.ph{position:relative;aspect-ratio:1;overflow:hidden;border-radius:14px;border:1px solid var(--line);cursor:pointer;background:var(--bg2)}
+.ph img{width:100%;height:100%;object-fit:cover;display:block}
+.ph span{position:absolute;left:0;right:0;bottom:0;background:linear-gradient(0deg,rgba(0,0,0,.65),transparent);
+color:#fff;font-size:.68rem;padding:16px 9px 7px}
+.addph{aspect-ratio:1;border-radius:14px;border:1px dashed var(--line);display:grid;place-items:center;cursor:pointer;
+color:var(--gold);font-size:1.7rem;background:var(--bg2)}
+.lb{position:fixed;inset:0;background:rgba(8,6,14,.94);z-index:20;display:flex;flex-direction:column;
+align-items:center;justify-content:center;padding:24px;gap:14px}
+.lb img{max-width:100%;max-height:68vh;object-fit:contain;border-radius:14px}
+.lb p{font-family:Fraunces,Georgia,serif;font-style:italic;color:#fff;text-align:center;max-width:420px}
+
+/* floating nav */
+nav{position:fixed;left:14px;right:14px;bottom:calc(12px + env(safe-area-inset-bottom,0px));z-index:9;
+display:flex;background:var(--bg2);border:1px solid var(--line);border-radius:22px;padding:7px;
+box-shadow:0 14px 34px rgba(0,0,0,.28)}
+nav button{flex:1;display:flex;flex-direction:column;align-items:center;gap:3px;background:none;border:0;
+box-shadow:none;color:var(--soft);font-family:Outfit;font-size:.62rem;font-weight:600;padding:8px 0;
+border-radius:16px;margin:0;transition:.15s}
+nav button svg{width:19px;height:19px}
+nav button.sel{color:var(--gold);background:rgba(205,164,94,.12)}
 .hide{display:none}
+::selection{background:var(--gold);color:var(--bg)}
 </style>
 </head>
 <body>
 <div class="wrap">
-  <h1 id="hd">Us</h1><p class="sub" id="sb">a small place for the two of you</p>
+  <header><b>Synastry</b>
+    <div class="tglTheme" id="tglTheme">
+      <svg id="themeIcon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M20 14.5A8 8 0 1 1 9.5 4a6.3 6.3 0 0 0 10.5 10.5z"/></svg>
+    </div>
+  </header>
 
-  <section id="v-setup" class="hide"><div class="card"><h2>Who's who?</h2>
-    <p class="muted">Both names once. Then pick which one is you on this phone.</p>
-    <div class="row" style="margin-top:13px"><input id="nA" placeholder="Your name"><input id="nB" placeholder="Their name"></div>
-    <button onclick="setup('a')">I'm the first</button> <button class="ghost" onclick="setup('b')">I'm the second</button>
-  </div></section>
+  <section id="v-setup" class="hide">
+    <div class="card"><h2>Name your constellation</h2>
+      <p class="muted">Both names, once. Then say which one is you, here.</p>
+      <div class="row" style="margin-top:14px"><input id="nA" placeholder="Your name"><input id="nB" placeholder="Their name"></div>
+      <button onclick="setup('a')">I'm the first</button> <button class="ghost" onclick="setup('b')">I'm the second</button>
+    </div>
+  </section>
 
   <section id="v-today" class="hide">
-    <div class="card"><span class="tag">Today's question</span><p class="q" id="qt"></p><div id="mine"></div><div id="theirs"></div></div>
-    <div class="card"><h2>Check in</h2><p class="muted" id="stx"></p><div class="big" id="stk">0</div>
+    <div class="sky">
+      <svg class="stars" viewBox="0 0 400 130" preserveAspectRatio="none">
+        <circle class="dim" cx="30" cy="20" r="1.4"/><circle class="dim" cx="70" cy="55" r="1"/>
+        <circle class="dim" cx="120" cy="15" r="1.2"/><circle class="dim" cx="370" cy="30" r="1.4"/>
+        <circle class="dim" cx="340" cy="70" r="1"/><circle class="dim" cx="200" cy="18" r="1"/>
+        <circle class="dim" cx="250" cy="60" r="1.3"/><circle class="dim" cx="55" cy="90" r="1"/>
+        <circle class="dim" cx="310" cy="100" r="1.2"/>
+        <line id="lnk" x1="46" y1="42" x2="96" y2="42"/>
+        <circle class="pt" cx="46" cy="42" r="9"/><text id="txtA" x="46" y="45" text-anchor="middle">A</text>
+        <circle class="pt" cx="96" cy="42" r="9"/><text id="txtB" x="96" y="45" text-anchor="middle">B</text>
+      </svg>
+      <p class="datestr" id="dtx"></p>
+      <p class="forecast" id="fc"></p>
+    </div>
+    <div class="card"><p class="label">Today's question</p><p class="q" id="qt"></p><div id="mine"></div><div id="theirs"></div></div>
+    <div class="card"><h2>Alignment streak</h2><p class="muted" id="stx"></p><div class="big" id="stk">0</div>
       <div class="days" id="dys"></div><button id="cib" onclick="checkin()">I'm thinking of you</button></div>
   </section>
 
   <section id="v-play" class="hide">
-    <div id="picker"><div class="card"><h2>Pick a deck</h2><div class="decks" id="dk"></div></div></div>
+    <div id="picker"><p class="label">Pick a deck</p><div class="decks" id="dk"></div></div>
     <div id="game" class="hide"><div class="card">
       <div class="bar"><i id="pb"></i></div><p class="q" id="gq"></p><div id="go"></div>
       <p class="muted" id="gx" style="margin-top:12px"></p>
@@ -104,43 +169,63 @@ nav i{display:block;font-style:normal;font-size:1.25rem;margin-bottom:2px}
   </section>
 
   <section id="v-notes" class="hide">
-    <div class="card"><h2>Leave a note</h2><textarea id="nt" placeholder="something small and true..."></textarea>
+    <p class="label">Say the thing</p>
+    <div class="card"><textarea id="nt" placeholder="something small and true..."></textarea>
       <button onclick="addNote()">Send it</button></div>
     <div class="card" id="nl"></div>
   </section>
 
+  <section id="v-album" class="hide">
+    <p class="label">Evidence you're happy</p>
+    <div class="grid" id="ph"></div>
+    <input type="file" id="fi" accept="image/*" style="display:none" onchange="onPhoto(event)">
+  </section>
+
   <section id="v-us" class="hide">
-    <div class="card"><h2>Counting down</h2><div id="el"></div>
+    <p class="label">Chart details</p>
+    <div class="card"><h2>Key dates</h2><div id="el"></div>
       <div class="row" style="margin-top:15px"><input id="eL" placeholder="Anniversary"><input id="eD" type="date"></div>
       <button onclick="addEv()">Add</button></div>
-    <div class="card"><h2>Sync between phones</h2>
-      <p class="muted">Everything lives on your phone. Copy your code, paste it on the other phone to merge.</p>
+    <div class="card"><h2>Sync your charts</h2>
+      <p class="muted">Everything lives on your phone only. Copy your code, paste it on the other phone to merge.</p>
       <button onclick="exp()">Copy my code</button> <button class="ghost" onclick="imp()">Paste theirs</button>
       <p class="muted" id="who2" style="margin-top:14px"></p><button class="ghost" onclick="swap()">Switch person</button></div>
   </section>
 </div>
 
+<div id="lb" class="lb hide" onclick="closeLb(event)"></div>
+
 <nav>
-  <button data-v="today" class="sel"><i>&#9728;</i>Today</button>
-  <button data-v="play"><i>&#127918;</i>Play</button>
-  <button data-v="notes"><i>&#9993;</i>Notes</button>
-  <button data-v="us"><i>&#10084;</i>Us</button>
+  <button data-v="today" class="sel"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2l1.9 6.1L20 10l-6.1 1.9L12 18l-1.9-6.1L4 10l6.1-1.9z"/></svg>Today</button>
+  <button data-v="play"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><rect x="4" y="7" width="12" height="14" rx="2.5"/><rect x="9" y="3" width="12" height="14" rx="2.5"/></svg>Play</button>
+  <button data-v="notes"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><rect x="3" y="6" width="18" height="13" rx="2.5"/><path d="M4 7l8 6 8-6"/></svg>Notes</button>
+  <button data-v="album"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><rect x="3" y="5" width="18" height="14" rx="2.5"/><circle cx="8.5" cy="10" r="1.4" fill="currentColor" stroke="none"/><path d="M4 17l5-5 4 4 3-3 4 4"/></svg>Album</button>
+  <button data-v="us"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><circle cx="9.5" cy="12" r="6"/><circle cx="14.5" cy="12" r="6"/></svg>Us</button>
 </nav>
 
 <script src="data.js"></script>
 <script>
-const KEY="us_state_v2",LK="us_me";
-let S={names:{a:"",b:""},daily:{},notes:[],marks:{},events:[],best:{}},me=localStorage.getItem(LK),view="today";
+const KEY="syn_state_v1",LK="syn_me",TK="syn_theme";
+let S={names:{a:"",b:""},daily:{},notes:[],marks:{},events:[],best:{},photos:[]},me=localStorage.getItem(LK),view="today";
 let G=null;
 const today=()=>new Date().toLocaleDateString("en-CA");
 const other=()=>me==="a"?"b":"a";
 const nm=k=>S.names[k]||(k==="a"?"You":"Them");
 const esc=s=>String(s).replace(/[<>&"]/g,c=>({"<":"&lt;",">":"&gt;","&":"&amp;",'"':"&quot;"}[c]));
 const dayN=()=>{const d=new Date();return Math.floor(Date.UTC(d.getFullYear(),d.getMonth(),d.getDate())/864e5)};
-function save(){try{localStorage.setItem(KEY,JSON.stringify(S))}catch(e){}render()}
+function hash(s){let h=0;for(let i=0;i<s.length;i++){h=(h<<5)-h+s.charCodeAt(i);h|=0}return Math.abs(h)}
+function save(){try{localStorage.setItem(KEY,JSON.stringify(S))}catch(e){alert("Storage is full — delete an old photo to make room.")}render()}
 try{const l=localStorage.getItem(KEY);if(l)S=Object.assign(S,JSON.parse(l))}catch(e){}
+const curTheme=localStorage.getItem(TK)||"dark";
+document.documentElement.setAttribute("data-theme",curTheme);
+function paintThemeIcon(){const light=document.documentElement.getAttribute("data-theme")==="light";
+  themeIcon.innerHTML=light?'<circle cx="12" cy="12" r="4.2"/><path d="M12 2v2.4M12 19.6V22M4.9 4.9l1.7 1.7M17.4 17.4l1.7 1.7M2 12h2.4M19.6 12H22M4.9 19.1l1.7-1.7M17.4 6.6l1.7-1.7" stroke="currentColor" fill="none"/>'
+    :'<path d="M20 14.5A8 8 0 1 1 9.5 4a6.3 6.3 0 0 0 10.5 10.5z" fill="currentColor"/>';}
+paintThemeIcon();
+tglTheme.onclick=()=>{const t=document.documentElement.getAttribute("data-theme")==="dark"?"light":"dark";
+  document.documentElement.setAttribute("data-theme",t);localStorage.setItem(TK,t);paintThemeIcon()};
 
-function setup(k){const a=nA.value.trim(),b=nB.value.trim();if(!a||!b)return alert("Both names, please :)");
+function setup(k){const a=nA.value.trim(),b=nB.value.trim();if(!a||!b)return alert("Both names, please.");
   S.names={a,b};me=k;localStorage.setItem(LK,k);save()}
 function swap(){me=other();localStorage.setItem(LK,me);render()}
 function answer(){const t=document.getElementById("ans").value.trim();if(!t)return;
@@ -155,14 +240,29 @@ function streak(){let n=0,c=new Date();
   for(let i=0;i<400;i++){const m=S.marks[c.toLocaleDateString("en-CA")];
     if(m&&m.a&&m.b)n++;else if(i>0)break;c.setDate(c.getDate()-1)}return n}
 
+function onPhoto(e){const f=e.target.files[0];if(!f)return;
+  const rd=new FileReader();rd.onload=()=>{const im=new Image();im.onload=()=>{
+    const mx=760,sc=Math.min(1,mx/Math.max(im.width,im.height));
+    const cv=document.createElement("canvas");cv.width=im.width*sc;cv.height=im.height*sc;
+    cv.getContext("2d").drawImage(im,0,0,cv.width,cv.height);
+    const cap=prompt("Caption (optional):")||"";
+    S.photos.unshift({img:cv.toDataURL("image/jpeg",.72),cap,at:Date.now()});
+    save();};im.src=rd.result;};rd.readAsDataURL(f);fi.value="";}
+function delPhoto(i){S.photos.splice(i,1);closeLb();save()}
+function openLb(i){const p=S.photos[i];lb.innerHTML='<img src="'+p.img+'"><p>'+esc(p.cap||"")+'</p>'+
+  '<button class="ghost" onclick="event.stopPropagation();delPhoto('+i+')" style="color:#fff;border-color:#555">Delete</button>';
+  lb.classList.remove("hide")}
+function closeLb(e){if(e&&e.target!==lb)return;lb.classList.add("hide");lb.innerHTML=""}
+
 function exp(){const s=btoa(unescape(encodeURIComponent(JSON.stringify(S))));
   (navigator.clipboard?navigator.clipboard.writeText(s):Promise.reject()).then(()=>alert("Code copied — paste it on the other phone."),()=>prompt("Copy this:",s))}
 function imp(){const s=prompt("Paste their code:");if(!s)return;
   try{const o=JSON.parse(decodeURIComponent(escape(atob(s.trim()))));
     S.names=o.names||S.names;
     ["daily","marks"].forEach(k=>{for(const d in o[k]||{})S[k][d]=Object.assign({},o[k][d],S[k][d])});
-    const seen={};S.notes=S.notes.concat(o.notes||[]).filter(n=>seen[n.at+n.t]?0:(seen[n.at+n.t]=1)).sort((x,y)=>y.at-x.at).slice(0,80);
+    const sn={};S.notes=S.notes.concat(o.notes||[]).filter(n=>sn[n.at+n.t]?0:(sn[n.at+n.t]=1)).sort((x,y)=>y.at-x.at).slice(0,80);
     const ev={};S.events=S.events.concat(o.events||[]).filter(e=>ev[e.l+e.d]?0:(ev[e.l+e.d]=1)).sort((x,y)=>x.d<y.d?-1:1);
+    const sp={};S.photos=(S.photos||[]).concat(o.photos||[]).filter(p=>sp[p.at]?0:(sp[p.at]=1)).sort((x,y)=>y.at-x.at);
     save();alert("Merged!")}catch(e){alert("That code didn't look right.")}}
 
 function startDeck(k){const q=DECKS[k].q.slice();
@@ -173,7 +273,7 @@ function pick(n){if(G.locked)return;G.locked=1;const q=G.q[G.i];
   [...go.children].forEach((b,i)=>{if(i===q.a)b.className="opt good";else if(i===n)b.className="opt bad"});
   if(n===q.a)G.s++;gx.textContent=q.x||"";
   setTimeout(()=>{G.i++;G.locked=0;G.i<G.q.length?drawG():endG()},1500)}
-function endG(){const b=S.best[G.k]||0;if(G.s>b){S.best[G.k]=G.s}
+function endG(){const b=S.best[G.k]||0;if(G.s>b)S.best[G.k]=G.s;
   pb.style.width="100%";gq.textContent=G.s+" / "+G.q.length;
   go.innerHTML='<p class="muted">'+(G.s===G.q.length?"Flawless. Insufferable, honestly.":G.s>=6?"Strong showing.":G.s>=4?"Respectable.":"Rewatch required.")+'</p>';
   gx.textContent="Best: "+S.best[G.k];G=null;try{localStorage.setItem(KEY,JSON.stringify(S))}catch(e){}}
@@ -182,11 +282,15 @@ function drawG(){const q=G.q[G.i];pb.style.width=(G.i/G.q.length*100)+"%";gx.tex
 
 function render(){
   const ready=S.names.a&&me;
-  ["setup","today","play","notes","us"].forEach(v=>document.getElementById("v-"+v).classList.add("hide"));
+  ["setup","today","play","notes","album","us"].forEach(v=>document.getElementById("v-"+v).classList.add("hide"));
   document.querySelector("nav").style.display=ready?"flex":"none";
   if(!ready)return document.getElementById("v-setup").classList.remove("hide");
   document.getElementById("v-"+view).classList.remove("hide");
-  hd.textContent=nm("a")+" & "+nm("b");
+
+  const seed=hash(S.names.a+S.names.b);
+  txtA.textContent=(S.names.a||"A")[0].toUpperCase();txtB.textContent=(S.names.b||"B")[0].toUpperCase();
+  dtx.textContent=nm("a")+" & "+nm("b")+" \u2014 "+new Date().toLocaleDateString(undefined,{weekday:"long",month:"long",day:"numeric"});
+  fc.textContent=FORECASTS[(dayN()+seed)%FORECASTS.length];
 
   const d=today(),e=S.daily[d]||{};
   qt.textContent=QS[dayN()%QS.length];
@@ -201,7 +305,7 @@ function render(){
   for(let i=0;i<7;i++){const m=S.marks[c.toLocaleDateString("en-CA")]||{};
     h+='<div class="dot'+(m.a&&m.b?" on":"")+'">'+"SMTWTFS"[c.getDay()]+'</div>';c.setDate(c.getDate()+1)}
   dys.innerHTML=h;
-  const dm=S.marks[d]||{};cib.textContent=dm[me]?"Checked in \u2713":"I'm thinking of you";cib.className=dm[me]?"ghost":"";
+  const dm=S.marks[d]||{};cib.textContent=dm[me]?"Checked in":"I'm thinking of you";cib.className=dm[me]?"ghost":"";
 
   picker.classList.toggle("hide",!!G);game.classList.toggle("hide",!G);
   dk.innerHTML=Object.keys(DECKS).map(k=>'<button class="deck" onclick="startDeck(\''+k+'\')"><b>'+DECKS[k].n+
@@ -210,6 +314,10 @@ function render(){
   nl.innerHTML=S.notes.length?S.notes.map((x,i)=>'<div class="note"><div class="who">'+esc(nm(x.by))+' &middot; '+
     new Date(x.at).toLocaleDateString()+'<button class="x" onclick="delNote('+i+')">&times;</button></div>'+esc(x.t)+'</div>').join("")
     :'<p class="muted">No notes yet. Be the first.</p>';
+
+  const P=S.photos||[];
+  ph.innerHTML='<div class="addph" onclick="fi.click()">+</div>'+P.map((p,i)=>
+    '<div class="ph" onclick="openLb('+i+')"><img src="'+p.img+'">'+(p.cap?'<span>'+esc(p.cap)+'</span>':'')+'</div>').join("");
 
   el.innerHTML=S.events.length?S.events.map((x,i)=>{
     const n=Math.round((new Date(x.d+"T00:00")-new Date(today()+"T00:00"))/864e5);

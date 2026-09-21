@@ -1,5 +1,74 @@
-// Daily questions + trivia decks. Add your own freely.
+// Content: daily questions, deadpan forecasts, trivia decks.
 const QS=["What's something I did recently that made you feel loved?","What tiny habit of mine would you miss if it vanished?","Where do you want us to be in three years?","What were you most worried about this week?","What memory of us do you replay?","What do you need more of from me lately?","What made you laugh today?","What have you never told me about your childhood?","When did you first know?","What small thing could I do tomorrow that would help?","What are you proudest of right now?","What fear are you carrying?","What smell reminds you of me?","What trip do you want us to take?","What do you think I underestimate about myself?","What's been heavy that you haven't said out loud?","What's your favourite ordinary day with me?","What song is us?","What do you want to get better at?","What did I get wrong recently that we never finished talking about?","What are you looking forward to?","What does a perfect Sunday look like?","How do you like to be comforted?","What's changed about you this year?","What should we stop doing?","What should I remind you of when you're low?","What's the kindest thing anyone's done for you?","What do you want our home to feel like?","What's a boundary you wish you were better at holding?","Which version of me do you like best?"];
+
+// Deadpan, Co-Star-style daily lines for the two of you. Full sentences, no mad-libs.
+const FORECASTS=[
+"Today rewards whoever apologises first. It probably isn't going to be you.",
+"One of you will say 'I'm fine' and mean the opposite. Ask twice.",
+"A small errand becomes a referendum on the relationship. Let it not.",
+"You are both extremely correct today, which is its own kind of problem.",
+"The dishes are not about the dishes.",
+"Say the nice thing you're thinking before you talk yourself out of it.",
+"Today favours naps over conversations. This is fine, occasionally.",
+"Someone is going to bring up something from 2019. Brace accordingly.",
+"You will both pretend to remember the plan. Neither of you does.",
+"A minor disagreement about restaurants reveals a major disagreement about everything.",
+"Today is a good day to be slightly less efficient and slightly more devoted.",
+"One of you needs quiet. The other needs to talk about the quiet. Negotiate.",
+"You will overthink a text message that took four seconds to write.",
+"Today, do the thing you keep saying you'll get around to. For them.",
+"A compliment lands wrong and no one knows why. Try again, softer.",
+"You're both right, annoyingly, from different angles.",
+"Today, whoever falls asleep first wins. Everyone loses, but someone wins.",
+"Something small — a mug left out, a door left open — will feel enormous. It isn't.",
+"You will both claim to be 'not hungry' and then eat everything.",
+"Today asks you to be interruptible. Put the phone down first.",
+"An old joke resurfaces and it's still, infuriatingly, funny.",
+"You will each privately believe you do more chores. You are both wrong.",
+"Today favours long drives with no destination and worse music taste than usual.",
+"Someone needs to be told they're doing better than they think.",
+"A plan changes last-minute and reveals who copes and who catastrophizes.",
+"You will both reach for the same side of the bed tonight, out of habit.",
+"Today, resist the urge to win the argument. Try just ending it instead.",
+"One small kindness today will be remembered longer than either of you expects.",
+"You're allowed to be annoyed and still be in love. Both, today.",
+"Today rewards whoever puts their phone face-down first.",
+"Venus is unbothered today. Try to match her energy.",
+"Someone is playing Persephone — gone half the day, explaining nothing.",
+"Hermes energy: say the message directly and skip the messenger.",
+"Whoever is doing the emotional labour today deserves to be relieved of it, Shakti-style.",
+"You're both a little bit Ares today. Choose your battles like it matters, because it does.",
+"Krishna never explained himself either. You don't have to — but it might help.",
+"A Pyramus-and-Thisbe day: say it plainly, skip the wall between you.",
+"Saturn energy: slow down, nothing needs deciding tonight.",
+"Today rewards whoever channels Hestia and just quietly tends the house.",
+"Whoever is angriest today is probably also right about something. Durga usually is.",
+"Like Savitri, today asks one of you to simply refuse to let something go.",
+"Odysseus took ten years to get home. You have, generously, until dinner.",
+"A little Aphrodite chaos today — vanity forgiven, so long as it's shared."
+];
+
+// Mythic pairings — deterministic per couple, drawn from Greek, Roman, and Hindu myth.
+const MYTH_PAIRS=[
+{n:"Eros & Psyche",t:"Greek — love that survived being looked at too closely."},
+{n:"Hades & Persephone",t:"Greek — half the year apart makes the other half count."},
+{n:"Zeus & Hera",t:"Greek — chaos and order, married anyway."},
+{n:"Odysseus & Penelope",t:"Greek — distance tested, patience won."},
+{n:"Perseus & Andromeda",t:"Greek — rescued each other, in different orders."},
+{n:"Orpheus & Eurydice",t:"Greek — don't look back to check they're still following."},
+{n:"Mars & Venus",t:"Roman — war and beauty, oddly compatible."},
+{n:"Aeneas & Dido",t:"Roman — a warning about leaving without saying why."},
+{n:"Pyramus & Thisbe",t:"Roman — talked through walls before anyone had phones."},
+{n:"Cupid & Psyche",t:"Roman — trust broke it, trust fixed it."},
+{n:"Shiva & Shakti",t:"Hindu — stillness and energy; neither moves without the other."},
+{n:"Radha & Krishna",t:"Hindu — devotion that never needed a title."},
+{n:"Rama & Sita",t:"Hindu — loyalty tested across kingdoms."},
+{n:"Krishna & Rukmini",t:"Hindu — she chose him before he arrived to be chosen."},
+{n:"Nala & Damayanti",t:"Hindu — lost each other, found their way back anyway."},
+{n:"Savitri & Satyavan",t:"Hindu — one of them argued with Death himself, and won."}
+];
+
+const MOODS=[{k:"joy",l:"Joyful"},{k:"content",l:"Content"},{k:"tired",l:"Tired"},{k:"anxious",l:"Anxious"},{k:"sad",l:"Sad"},{k:"angry",l:"Angry"}];
 
 const DECKS={
   us:{n:"Us",d:"talk, don't score",q:[
@@ -39,5 +108,14 @@ const DECKS={
     {q:"Amy Santiago's greatest love, besides Jake?",o:["Binders","Wine","Hiking","Karaoke"],a:0,x:"Binders and organisation."},
     {q:"What's the annual heist held on?",o:["Halloween","Christmas","New Year","Thanksgiving"],a:0,x:"The Halloween Heist."},
     {q:"Rosa Diaz's most guarded secret early on?",o:["Everything","Her age","Her address","Her first name"],a:0,x:"She guards literally all of it."},
-    {q:"Who are the two oldest, laziest detectives?",o:["Hitchcock and Scully","Boyle and Terry","Jake and Rosa","Gina and Amy"],a:0,x:"Inseparable, horizontal."}]}
+    {q:"Who are the two oldest, laziest detectives?",o:["Hitchcock and Scully","Boyle and Terry","Jake and Rosa","Gina and Amy"],a:0,x:"Inseparable, horizontal."}]},
+  myths:{n:"Myths",d:"Greek, Roman, Hindu",q:[
+    {q:"In Greek myth, who was condemned to push a boulder for eternity?",o:["Sisyphus","Tantalus","Prometheus","Atlas"],a:0,x:"Sisyphus, forever almost finished."},
+    {q:"Who is the Roman god of war?",o:["Mars","Neptune","Vulcan","Jupiter"],a:0,x:"Mars, counterpart to Greek Ares."},
+    {q:"Shakti is another form of which goddess, Shiva's consort?",o:["Parvati","Lakshmi","Saraswati","Ganga"],a:0,x:"Parvati, whose fierce aspect is Shakti."},
+    {q:"Who carried the sky on his shoulders in Greek myth?",o:["Atlas","Hercules","Zeus","Cronus"],a:0,x:"Atlas, as punishment for the Titan war."},
+    {q:"Who is the Roman equivalent of Aphrodite?",o:["Venus","Juno","Minerva","Diana"],a:0,x:"Venus, goddess of love and beauty."},
+    {q:"Who did Orpheus try to rescue from the underworld?",o:["Eurydice","Persephone","Psyche","Daphne"],a:0,x:"His wife Eurydice — he looked back too soon."},
+    {q:"In the Ramayana, who is Rama's devoted wife?",o:["Sita","Radha","Draupadi","Savitri"],a:0,x:"Sita, whose loyalty is tested across the epic."},
+    {q:"Which Roman god is the counterpart of Greek Hermes?",o:["Mercury","Apollo","Vulcan","Bacchus"],a:0,x:"Mercury, messenger of the gods."}]}
 };
