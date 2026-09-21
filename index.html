@@ -277,7 +277,7 @@ nav button.sel{color:var(--gold);background:rgba(205,164,94,.12)}
 <script>
 /* ====== fill these two in, see README ====== */
 const FIREBASE_CONFIG={apiKey:"AIzaSyC1SNEU0nT9b7WPTIGd1BO5rqegrrWtfqQ",authDomain:"synastry-e0bff.firebaseapp.com",databaseURL:"https://synastry-e0bff-default-rtdb.asia-southeast1.firebasedatabase.app",projectId:"synastry-e0bff",storageBucket:"synastry-e0bff.firebasestorage.app",messagingSenderId:"51129364913",appId:"1:51129364913:web:0289cc589a9e6662f30d90"};
-const ONESIGNAL_APP_ID="PASTE_ME";
+const ONESIGNAL_APP_ID="c7a5548b-3fe5-4a06-89b7-deb7e9785a46";
 const HAS_OS=ONESIGNAL_APP_ID!=="PASTE_ME";
 /* ============================================ */
 
@@ -518,6 +518,9 @@ if(HAS_OS)OneSignalDeferred.push(async OS=>{
   await OS.init({appId:ONESIGNAL_APP_ID,serviceWorkerPath:"sw.js",serviceWorkerParam:{scope:base}});
   renderNotifStatus();
 });
+{const t=new URLSearchParams(location.search).get("tab");
+  if(t&&document.querySelector('nav button[data-v="'+t+'"]')){view=t;
+    document.querySelectorAll("nav button").forEach(x=>x.classList.toggle("sel",x.dataset.v===t))}}
 render();
 if(S.names.a)syncInit();
 maybeDailyNudge();
