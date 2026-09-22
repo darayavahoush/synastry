@@ -378,7 +378,7 @@ const HAS_OS=ONESIGNAL_APP_ID!=="PASTE_ME";
 /* ============================================ */
 
 const KEY="syn_state_v1",LK="syn_me",TK="syn_theme";
-let S={names:{a:"",b:""},daily:{},notes:[],marks:{},events:[],best:{},photos:[],moods:{}},me=localStorage.getItem(LK),view="today";
+let S={names:{a:"",b:""},daily:{},notes:[],marks:{},events:[],best:{},photos:[],moods:{},pulse:0},me=localStorage.getItem(LK),view="today";
 let G=null,justMood=null,justCheck=false;
 const today=()=>new Date().toLocaleDateString("en-CA");
 const other=()=>me==="a"?"b":"a";
@@ -389,9 +389,11 @@ function hash(s){let h=0;for(let i=0;i<s.length;i++){h=(h<<5)-h+s.charCodeAt(i);
 function save(){try{localStorage.setItem(KEY,JSON.stringify(S))}catch(e){alert("Storage is full — delete an old photo to make room.")}syncPush();render()}
 try{const l=localStorage.getItem(KEY);if(l)S=Object.assign(S,JSON.parse(l))}catch(e){}
 if(!S.moods)S.moods={};
+if(!S.pulse)S.pulse=0;
+function pulse(){S.pulse=(S.pulse||0)+1}
 
 /* ---------- mood ---------- */
-function logMood(k){const d=today();S.moods[d]=S.moods[d]||{};S.moods[d][me]=k;justMood=k;buzz(14);save()}
+function logMood(k){const d=today();S.moods[d]=S.moods[d]||{};S.moods[d][me]=k;justMood=k;buzz(14);pulse();save()}
 const moodLabel=k=>{const m=MOODS.find(x=>x.k===k);return m?m.l:k};
 const moodEmoji={joy:"😊",content:"🙂",tired:"😴",anxious:"😬",sad:"😔",angry:"😤"};
 
@@ -491,6 +493,7 @@ function syncInit(){
       const sn={};S.notes=S.notes.concat(remote.notes||[]).filter(n=>sn[n.at+n.t]?0:(sn[n.at+n.t]=1)).sort((x,y)=>y.at-x.at).slice(0,80);
       const ev={};S.events=(remote.events||[]).concat(S.events).filter(e=>ev[e.l+e.d]?0:(ev[e.l+e.d]=1)).sort((x,y)=>x.d<y.d?-1:1);
       S.best=Object.assign({},remote.best,S.best);
+      S.pulse=Math.max(S.pulse||0,remote.pulse||0);
       try{localStorage.setItem(KEY,JSON.stringify(S))}catch(e){}
       fbApplyingRemote=false;render();
     },()=>renderSyncStatus(false,"error"));
@@ -522,12 +525,12 @@ function setup(k){const a=nA.value.trim(),b=nB.value.trim();if(!a||!b)return ale
   S.names={a,b};me=k;localStorage.setItem(LK,k);save();syncInit()}
 function swap(){me=other();localStorage.setItem(LK,me);render()}
 function answer(){const t=document.getElementById("ans").value.trim();if(!t)return;
-  const d=today();S.daily[d]=S.daily[d]||{};S.daily[d][me]=t;save()}
-function addNote(){const t=nt.value.trim();if(!t)return;S.notes.unshift({t,by:me,at:Date.now()});S.notes=S.notes.slice(0,80);nt.value="";save()}
+  const d=today();S.daily[d]=S.daily[d]||{};S.daily[d][me]=t;pulse();save()}
+function addNote(){const t=nt.value.trim();if(!t)return;S.notes.unshift({t,by:me,at:Date.now()});S.notes=S.notes.slice(0,80);nt.value="";pulse();save()}
 function delNote(i){S.notes.splice(i,1);save()}
-function checkin(){const d=today();S.marks[d]=S.marks[d]||{};S.marks[d][me]=1;burst(cib);buzz([18,40,18]);save()}
+function checkin(){const d=today();S.marks[d]=S.marks[d]||{};S.marks[d][me]=1;burst(cib);buzz([18,40,18]);pulse();save()}
 function addEv(){const l=eL.value.trim(),d=eD.value;if(!l||!d)return;S.events.push({l,d});
-  S.events.sort((x,y)=>x.d<y.d?-1:1);eL.value="";eD.value="";save()}
+  S.events.sort((x,y)=>x.d<y.d?-1:1);eL.value="";eD.value="";pulse();save()}
 function delEv(i){S.events.splice(i,1);save()}
 function streak(){let n=0,c=new Date();
   for(let i=0;i<400;i++){const m=S.marks[c.toLocaleDateString("en-CA")];
@@ -540,7 +543,7 @@ function onPhoto(e){const f=e.target.files[0];if(!f)return;
     cv.getContext("2d").drawImage(im,0,0,cv.width,cv.height);
     const cap=prompt("Caption (optional):")||"";
     S.photos.unshift({img:cv.toDataURL("image/jpeg",.72),cap,at:Date.now()});
-    save();};im.src=rd.result;};rd.readAsDataURL(f);fi.value="";}
+    pulse();save();};im.src=rd.result;};rd.readAsDataURL(f);fi.value="";}
 function delPhoto(i){S.photos.splice(i,1);closeLb();save()}
 function openLb(i){const p=S.photos[i];lb.innerHTML='<img src="'+p.img+'"><p>'+esc(p.cap||"")+'</p>'+
   '<button class="ghost" onclick="event.stopPropagation();delPhoto('+i+')" style="color:#fff;border-color:#555">Delete</button>';
@@ -556,6 +559,7 @@ function imp(){const s=prompt("Paste their code:");if(!s)return;
     const sn={};S.notes=S.notes.concat(o.notes||[]).filter(n=>sn[n.at+n.t]?0:(sn[n.at+n.t]=1)).sort((x,y)=>y.at-x.at).slice(0,80);
     const ev={};S.events=S.events.concat(o.events||[]).filter(e=>ev[e.l+e.d]?0:(ev[e.l+e.d]=1)).sort((x,y)=>x.d<y.d?-1:1);
     const sp={};S.photos=(S.photos||[]).concat(o.photos||[]).filter(p=>sp[p.at]?0:(sp[p.at]=1)).sort((x,y)=>y.at-x.at);
+    S.pulse=Math.max(S.pulse||0,o.pulse||0);
     save();alert("Merged!")}catch(e){alert("That code didn't look right.")}}
 
 function startDeck(k){const q=DECKS[k].q.slice();
@@ -628,7 +632,7 @@ function render(){
   nameA.textContent=nm("a");nameB.textContent=nm("b");
   dtx.textContent=new Date().toLocaleDateString(undefined,{weekday:"long",month:"long",day:"numeric"});
   fc.textContent=FORECASTS[(dayN()+seed)%FORECASTS.length];
-  const mp=MYTH_PAIRS[seed%MYTH_PAIRS.length];mpn.textContent=mp.n;mpt.textContent=mp.t;
+  const mp=MYTH_PAIRS[(seed+dayN()+(S.pulse||0))%MYTH_PAIRS.length];mpn.textContent=mp.n;mpt.textContent=mp.t;
 
   const d=today(),e=S.daily[d]||{};
   qt.textContent=QS[dayN()%QS.length];
