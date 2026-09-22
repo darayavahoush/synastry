@@ -128,3 +128,51 @@ const DECKS={
     {q:"In the Ramayana, who is Rama's devoted wife?",o:["Sita","Radha","Draupadi","Savitri"],a:0,x:"Sita, whose loyalty is tested across the epic."},
     {q:"Which Roman god is the counterpart of Greek Hermes?",o:["Mercury","Apollo","Vulcan","Bacchus"],a:0,x:"Mercury, messenger of the gods."}]}
 };
+
+// Real moon phase flavor lines, one per phase (New, Waxing Crescent, First Quarter, Waxing Gibbous, Full, Waning Gibbous, Last Quarter, Waning Crescent).
+const MOON_LINES=[
+"Good night for a decision no one else needs to know about yet.",
+"Momentum is arriving in small, annoying increments.",
+"Tension is doing something useful today, for once.",
+"Nearly there. Try not to ruin it early.",
+"Everyone is slightly unhinged. You are not exempt.",
+"Post-mortem energy: figure out what actually happened.",
+"A good day to let something go without a speech.",
+"Rest. The sky is basically empty too."
+];
+
+// Sun signs — standard tropical dates, inclusive. m/d pairs mark each sign's start.
+const ZODIAC=[
+{sign:"Capricorn",sym:"♑︎",elem:"earth",from:[12,22],to:[1,19]},
+{sign:"Aquarius",sym:"♒︎",elem:"air",from:[1,20],to:[2,18]},
+{sign:"Pisces",sym:"♓︎",elem:"water",from:[2,19],to:[3,20]},
+{sign:"Aries",sym:"♈︎",elem:"fire",from:[3,21],to:[4,19]},
+{sign:"Taurus",sym:"♉︎",elem:"earth",from:[4,20],to:[5,20]},
+{sign:"Gemini",sym:"♊︎",elem:"air",from:[5,21],to:[6,20]},
+{sign:"Cancer",sym:"♋︎",elem:"water",from:[6,21],to:[7,22]},
+{sign:"Leo",sym:"♌︎",elem:"fire",from:[7,23],to:[8,22]},
+{sign:"Virgo",sym:"♍︎",elem:"earth",from:[8,23],to:[9,22]},
+{sign:"Libra",sym:"♎︎",elem:"air",from:[9,23],to:[10,22]},
+{sign:"Scorpio",sym:"♏︎",elem:"water",from:[10,23],to:[11,21]},
+{sign:"Sagittarius",sym:"♐︎",elem:"fire",from:[11,22],to:[12,21]}
+];
+
+// Elemental compatibility, one line per unordered element pair.
+const ELEMENT_LINES={
+"fire-fire":"Two open flames, one room. Someone's getting burned, probably you both.",
+"earth-earth":"Extremely stable. Possibly too stable — where's the spontaneity, either of you.",
+"air-air":"All talk, in the best way. Somebody still has to do the dishes.",
+"water-water":"Feelings on feelings. Bring a towel.",
+"fire-earth":"Combustion meets bedrock — one of you sets the pace, the other holds it steady.",
+"earth-fire":"Combustion meets bedrock — one of you sets the pace, the other holds it steady.",
+"fire-air":"Fire needs air to survive. Try not to think about that too literally.",
+"air-fire":"Fire needs air to survive. Try not to think about that too literally.",
+"fire-water":"Steam or stalemate. There is no in-between with you two.",
+"water-fire":"Steam or stalemate. There is no in-between with you two.",
+"earth-air":"Earth wants a five-year plan. Air wants to leave in ten minutes. Compromise: a nice weekend trip.",
+"air-earth":"Earth wants a five-year plan. Air wants to leave in ten minutes. Compromise: a nice weekend trip.",
+"earth-water":"Earth holds the shape, water fills it in. Weirdly, it works.",
+"water-earth":"Earth holds the shape, water fills it in. Weirdly, it works.",
+"air-water":"Air stirs it up, water carries it somewhere. Try to agree on where.",
+"water-air":"Air stirs it up, water carries it somewhere. Try to agree on where."
+};

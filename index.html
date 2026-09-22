@@ -87,6 +87,7 @@ body{margin:0;min-height:100vh;min-height:100svh;background:var(--bg);color:var(
 .forecast{font-family:Fraunces,Georgia,serif;font-style:italic;font-weight:500;font-size:clamp(1.85rem,8.2vw,2.4rem);
   line-height:1.2;letter-spacing:-.01em;margin:0 auto;max-width:17em;text-wrap:balance}
 .myth{margin:30px auto 0;max-width:24em}
+.moonline{font-size:.94rem;color:var(--heroSoft);opacity:.85;margin:0 0 10px;max-width:28em;text-wrap:balance}
 .myth svg{width:26px;height:26px;color:var(--goldB);margin-bottom:6px}
 .myth .mn{font-family:Fraunces,Georgia,serif;font-style:italic;font-weight:600;font-size:1.25rem;margin:0 0 2px}
 .myth .mt{font-size:1.02rem;color:var(--heroSoft);margin:0;text-wrap:balance}
@@ -157,6 +158,13 @@ button.x{background:none;border:0;box-shadow:none;color:var(--soft);min-height:3
 /* streak */
 .streak{text-align:center}
 .wreathwrap{display:flex;align-items:center;justify-content:center;gap:16px;margin:6px 0 4px}
+#sky2{width:100%;height:170px;display:block;margin:10px 0 8px}
+#sky2 circle{transform-box:fill-box;transform-origin:center}
+#sky2 circle.newstar{animation:starpop .6s cubic-bezier(.3,1.5,.5,1)}
+@keyframes starpop{from{opacity:0;transform:scale(.1)}to{opacity:1;transform:scale(1)}}
+.bdrow{display:flex;align-items:center;gap:10px;font-size:1.05rem;margin:0 0 8px}
+.bdrow .sym{font-size:1.3rem}
+.bdcompat{font-size:1rem;color:var(--soft);margin:6px 0 0}
 .wreathwrap svg{width:46px;height:80px;color:var(--olive);flex:none}
 .wreathwrap svg.r{transform:scaleX(-1)}
 .big{font-family:Fraunces,Georgia,serif;font-style:italic;font-weight:500;font-size:5.4rem;line-height:1;min-width:.8em;
@@ -291,6 +299,7 @@ nav button:active{transform:scale(.94)}
         <div class="pst b" id="starB"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 0l2.2 9.8L24 12l-9.8 2.2L12 24l-2.2-9.8L0 12l9.8-2.2z"/></svg><span id="nameB">B</span></div>
       </div>
       <p class="datestr" id="dtx"></p>
+      <p class="moonline" id="moonln"></p>
       <p class="forecast" id="fc"></p>
       <div class="myth"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><path d="M12 21c0-6-3-8-3-13a3 3 0 0 1 6 0c0 5-3 7-3 13z"/><path d="M12 8c2-2 3-5 2-7-3 1-4 4-2 7z"/><path d="M12 8c-2-2-3-5-2-7 3 1 4 4 2 7z"/></svg><p class="mn" id="mpn"></p><p class="mt" id="mpt"></p></div>
     </div>
@@ -306,6 +315,10 @@ nav button:active{transform:scale(.94)}
         <p class="muted" id="stx"></p>
         <div class="days" id="dys"></div>
         <button id="cib" class="wide" onclick="checkin()">I'm thinking of you</button>
+      </div>
+      <div class="blk hide" id="skyWrap"><p class="h">Your sky</p>
+        <svg id="sky2" viewBox="0 0 100 100" preserveAspectRatio="xMidYMid meet" aria-hidden="true"></svg>
+        <p class="muted" id="skyCount"></p>
       </div>
       <div class="blk hide" id="otdBlk"><p class="h">On this day</p><div id="otd"></div></div>
     </div>
@@ -334,6 +347,11 @@ nav button:active{transform:scale(.94)}
 
   <section id="v-us" class="hide page">
     <h1 class="pt">Chart details</h1><p class="ps">Dates, numbers and settings.</p>
+    <div class="panel"><h2>Birth chart</h2>
+      <p class="muted">Add both birthdays for real sun signs, not just the myth.</p>
+      <div class="row" style="margin-top:14px"><input id="bdA" type="date" aria-label="Your birthday"><input id="bdB" type="date" aria-label="Their birthday"></div>
+      <button class="wide" onclick="saveBdays()">Save birthdays</button>
+      <div id="bdout" style="margin-top:14px"></div></div>
     <div class="panel"><h2>Key dates</h2><div id="el"></div>
       <div class="row" style="margin-top:16px"><input id="eL" placeholder="Anniversary"><input id="eD" type="date"></div>
       <button class="wide" onclick="addEv()">Add date</button></div>
@@ -494,6 +512,7 @@ function syncInit(){
       const ev={};S.events=(remote.events||[]).concat(S.events).filter(e=>ev[e.l+e.d]?0:(ev[e.l+e.d]=1)).sort((x,y)=>x.d<y.d?-1:1);
       S.best=Object.assign({},remote.best,S.best);
       S.pulse=Math.max(S.pulse||0,remote.pulse||0);
+      S.bdays=S.bdays||remote.bdays;
       try{localStorage.setItem(KEY,JSON.stringify(S))}catch(e){}
       fbApplyingRemote=false;render();
     },()=>renderSyncStatus(false,"error"));
@@ -560,6 +579,7 @@ function imp(){const s=prompt("Paste their code:");if(!s)return;
     const ev={};S.events=S.events.concat(o.events||[]).filter(e=>ev[e.l+e.d]?0:(ev[e.l+e.d]=1)).sort((x,y)=>x.d<y.d?-1:1);
     const sp={};S.photos=(S.photos||[]).concat(o.photos||[]).filter(p=>sp[p.at]?0:(sp[p.at]=1)).sort((x,y)=>y.at-x.at);
     S.pulse=Math.max(S.pulse||0,o.pulse||0);
+    S.bdays=S.bdays||o.bdays;
     save();alert("Merged!")}catch(e){alert("That code didn't look right.")}}
 
 function startDeck(k){const q=DECKS[k].q.slice();
@@ -621,6 +641,62 @@ function paintStars(){
     svg.innerHTML=h});
 }
 
+/* ---------- real moon phase ---------- */
+function moonInfo(d){
+  const synodic=29.530588853;
+  const known=Date.UTC(2000,0,6,18,14,0);
+  const days=(d.getTime()-known)/86400000;
+  let phase=(days%synodic)/synodic;if(phase<0)phase+=1;
+  const names=["New Moon","Waxing Crescent","First Quarter","Waxing Gibbous","Full Moon","Waning Gibbous","Last Quarter","Waning Crescent"];
+  const icons=["\ud83c\udf11","\ud83c\udf12","\ud83c\udf13","\ud83c\udf14","\ud83c\udf15","\ud83c\udf16","\ud83c\udf17","\ud83c\udf18"];
+  const idx=Math.floor(phase*8+0.5)%8;
+  const illum=Math.round((1-Math.cos(phase*2*Math.PI))/2*100);
+  return{name:names[idx],icon:icons[idx],illum,idx};
+}
+
+/* ---------- sun signs ---------- */
+function zodiacFor(mm,dd){
+  for(const z of ZODIAC){
+    const[fm,fd]=z.from,[tm,td]=z.to;
+    if(fm>tm){if((mm===fm&&dd>=fd)||(mm===tm&&dd<=td)||(mm>fm)||(mm<tm))return z}
+    else{if((mm===fm&&dd>=fd)||(mm===tm&&dd<=td)||(mm>fm&&mm<tm))return z}
+  }
+  return ZODIAC[0];
+}
+function saveBdays(){const a=bdA.value,b=bdB.value;if(!a||!b)return alert("Both birthdays, please.");S.bdays={a,b};save()}
+function renderBdays(){
+  if(!S.bdays){bdout.innerHTML="";return}
+  const da=new Date(S.bdays.a+"T00:00"),db=new Date(S.bdays.b+"T00:00");
+  const za=zodiacFor(da.getMonth()+1,da.getDate()),zb=zodiacFor(db.getMonth()+1,db.getDate());
+  bdout.innerHTML='<div class="bdrow"><span class="sym">'+za.sym+'</span>'+esc(nm("a"))+" — "+za.sign+'</div>'+
+    '<div class="bdrow"><span class="sym">'+zb.sym+'</span>'+esc(nm("b"))+" — "+zb.sign+'</div>'+
+    '<p class="bdcompat">'+esc(ELEMENT_LINES[za.elem+"-"+zb.elem]||"")+'</p>';
+  bdA.value=S.bdays.a;bdB.value=S.bdays.b;
+}
+function signSym(k){
+  if(!S.bdays)return"";
+  const d=new Date(S.bdays[k]+"T00:00"),z=zodiacFor(d.getMonth()+1,d.getDate());
+  return" "+z.sym;
+}
+
+/* ---------- growing star map ---------- */
+function renderSky(){
+  const n=Math.min(S.pulse||0,500);
+  skyWrap.classList.toggle("hide",!n);
+  if(!n)return;
+  const ga=137.50776405003785*Math.PI/180,pts=[];
+  for(let i=0;i<n;i++){const r=Math.sqrt(i+1)*13,a=i*ga;pts.push([r*Math.cos(a),r*Math.sin(a)])}
+  const xs=pts.map(p=>p[0]),ys=pts.map(p=>p[1]),pad=22;
+  const minX=Math.min(...xs)-pad,maxX=Math.max(...xs)+pad,minY=Math.min(...ys)-pad,maxY=Math.max(...ys)+pad;
+  const w=(maxX-minX)||100,hgt=(maxY-minY)||100;
+  let s="";
+  pts.forEach((p,i)=>{const big=i===n-1,rad=big?5:(i%9===0?3.2:2);
+    s+='<circle cx="'+(p[0]-minX).toFixed(1)+'" cy="'+(p[1]-minY).toFixed(1)+'" r="'+rad+'" fill="'+(big?"var(--goldB)":"var(--gold)")+'" opacity="'+(big?1:.78)+'"'+(big?' class="newstar"':"")+'/>'});
+  sky2.setAttribute("viewBox","0 0 "+w.toFixed(1)+" "+hgt.toFixed(1));
+  sky2.innerHTML=s;
+  skyCount.textContent=n+(n===1?" star — the first of many.":" stars, and counting.");
+}
+
 function render(){
   const ready=S.names.a&&me;
   ["setup","today","play","notes","album","us"].forEach(v=>document.getElementById("v-"+v).classList.add("hide"));
@@ -629,9 +705,10 @@ function render(){
   document.getElementById("v-"+view).classList.remove("hide");
 
   const seed=hash(S.names.a+S.names.b);
-  nameA.textContent=nm("a");nameB.textContent=nm("b");
+  nameA.textContent=nm("a")+signSym("a");nameB.textContent=nm("b")+signSym("b");
   dtx.textContent=new Date().toLocaleDateString(undefined,{weekday:"long",month:"long",day:"numeric"});
   fc.textContent=FORECASTS[(dayN()+seed)%FORECASTS.length];
+  {const mi=moonInfo(new Date());moonln.textContent=mi.icon+" "+mi.name+" \u00b7 "+mi.illum+"% lit \u2014 "+MOON_LINES[mi.idx]}
   const mp=MYTH_PAIRS[(seed+dayN()+(S.pulse||0))%MYTH_PAIRS.length];mpn.textContent=mp.n;mpt.textContent=mp.t;
 
   const d=today(),e=S.daily[d]||{};
@@ -681,6 +758,8 @@ function render(){
   ins.innerHTML=computeInsights().map(r=>'<div class="insrow"><span>'+esc(r[0])+'</span><b>'+esc(r[1])+'</b></div>').join("");
   renderNotifStatus();
   renderOtd();
+  renderSky();
+  renderBdays();
   if(tabs.style.display==="flex"&&!ind.dataset.ok){moveInd(true);ind.dataset.ok="1"}
   justMood=null;
 }
