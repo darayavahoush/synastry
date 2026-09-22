@@ -13,8 +13,9 @@ jobs:
         env:
           OS_APP_ID: ${{ secrets.ONESIGNAL_APP_ID }}
           OS_KEY: ${{ secrets.ONESIGNAL_API_KEY }}
-          SITE: https://${{ github.repository_owner }}.github.io/us/
         run: |
+          SITE="https://${GITHUB_REPOSITORY_OWNER}.github.io/${GITHUB_REPOSITORY#*/}/"
+
           TITLES=(
             "✦ your forecast has arrived"
             "☾ the stars have notes"
@@ -38,9 +39,15 @@ jobs:
 
           BODY=$(jq -n \
             --arg app "$OS_APP_ID" --arg t "$T" --arg c "$L" \
-            --arg url "$SITE" --arg icon "${SITE}icon.png" \
+            --arg url "$SITE" --arg icon "${SITE}icon.png" --arg img "${SITE}push-banner.png" \
+            --arg todayurl "${SITE}?tab=today" --arg notesurl "${SITE}?tab=notes" \
             '{app_id:$app, target_channel:"push", included_segments:["Subscribed Users"],
-              headings:{en:$t}, contents:{en:$c}, url:$url, chrome_web_icon:$icon}')
+              headings:{en:$t}, contents:{en:$c}, url:$url,
+              chrome_web_icon:$icon, chrome_web_image:$img,
+              web_buttons:[
+                {id:"today", text:"Answer today\u2019s Q", url:$todayurl},
+                {id:"notes", text:"Say something", url:$notesurl}
+              ]}')
 
           curl -sS -X POST "https://api.onesignal.com/notifications" \
             -H "Content-Type: application/json; charset=utf-8" \

@@ -199,6 +199,10 @@ button.x{background:none;border:0;box-shadow:none;color:var(--soft);min-height:3
 .note{max-width:88%;padding:14px 18px 16px;border-radius:22px 22px 22px 6px;background:var(--raise);margin-bottom:12px;font-size:1.06rem}
 .note.mine{margin-left:auto;border-radius:22px 22px 6px 22px;background:linear-gradient(135deg,rgba(212,170,98,.24),rgba(196,106,134,.20))}
 .notes{margin-top:30px}
+.otd{display:flex;gap:14px;align-items:center;background:var(--raise);border-radius:22px;padding:16px 18px;text-align:left}
+.otd img{width:56px;height:56px;border-radius:14px;object-fit:cover;flex:none}
+.otd .oty{font-size:.85rem;color:var(--gold);font-weight:600;margin:0 0 3px}
+.otd p.otxt{margin:0;font-size:1rem;line-height:1.4}
 
 /* album */
 .grid{display:grid;grid-template-columns:1fr 1fr;gap:12px}
@@ -303,6 +307,7 @@ nav button:active{transform:scale(.94)}
         <div class="days" id="dys"></div>
         <button id="cib" class="wide" onclick="checkin()">I'm thinking of you</button>
       </div>
+      <div class="blk hide" id="otdBlk"><p class="h">On this day</p><div id="otd"></div></div>
     </div>
   </section>
 
@@ -407,6 +412,30 @@ function computeInsights(){
   return rows;
 }
 function dayDiff(a,b){return Math.round((new Date(b+"T00:00")-new Date(a+"T00:00"))/864e5)}
+
+/* ---------- on this day ---------- */
+function onThisDay(){
+  const now=new Date(),items=[];
+  (S.notes||[]).forEach(n=>{const d=new Date(n.at);
+    if(d.getMonth()===now.getMonth()&&d.getDate()===now.getDate()&&d.getFullYear()<now.getFullYear())
+      items.push({type:"note",at:n.at,by:n.by,t:n.t})});
+  (S.photos||[]).forEach(p=>{const d=new Date(p.at);
+    if(d.getMonth()===now.getMonth()&&d.getDate()===now.getDate()&&d.getFullYear()<now.getFullYear())
+      items.push({type:"photo",at:p.at,img:p.img,cap:p.cap})});
+  items.sort((a,b)=>b.at-a.at);
+  return items[0]||null;
+}
+function renderOtd(){
+  const it=onThisDay();
+  otdBlk.classList.toggle("hide",!it);
+  if(!it)return;
+  const yrs=new Date().getFullYear()-new Date(it.at).getFullYear();
+  const ago=yrs===1?"1 year ago":yrs+" years ago";
+  if(it.type==="note")
+    otd.innerHTML='<div class="otd"><div><p class="oty">'+ago+' &middot; '+esc(nm(it.by))+'</p><p class="otxt">'+esc(it.t)+'</p></div></div>';
+  else
+    otd.innerHTML='<div class="otd"><img src="'+it.img+'"><div><p class="oty">'+ago+'</p><p class="otxt">'+esc(it.cap||"a photo from that day")+'</p></div></div>';
+}
 
 /* ---------- notifications ---------- */
 function enableNotifs(){
@@ -647,6 +676,7 @@ function render(){
 
   ins.innerHTML=computeInsights().map(r=>'<div class="insrow"><span>'+esc(r[0])+'</span><b>'+esc(r[1])+'</b></div>').join("");
   renderNotifStatus();
+  renderOtd();
   if(tabs.style.display==="flex"&&!ind.dataset.ok){moveInd(true);ind.dataset.ok="1"}
   justMood=null;
 }

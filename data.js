@@ -71,6 +71,15 @@ const MYTH_PAIRS=[
 const MOODS=[{k:"joy",l:"Joyful"},{k:"content",l:"Content"},{k:"tired",l:"Tired"},{k:"anxious",l:"Anxious"},{k:"sad",l:"Sad"},{k:"angry",l:"Angry"}];
 
 const DECKS={
+  hoteltransylvania:{n:"Hotel T",d:"a monster vacation",q:[
+    {q: "Who runs Hotel Transylvania?", o: ["Dracula", "Frankenstein", "Van Helsing", "Murray the Mummy"], a: 0, x: "Dracula built it as a monster-only retreat for his daughter."},
+    {q: "What is Dracula's daughter's name?", o: ["Mavis", "Wanda", "Eunice", "Wendy"], a: 0, x: "Mavis Dracula, the film's heart."},
+    {q: "What is the human backpacker who stumbles into the hotel called?", o: ["Jonathan", "Johnny", "Josh", "Jimmy"], a: 1, x: "Johnny, whose visit unravels the whole plot."},
+    {q: "What kind of monster is Frank, one of Dracula's friends?", o: ["Frankenstein's monster", "A werewolf", "A mummy", "An invisible man"], a: 0, x: "Frank, married to Eunice."},
+    {q: "What does Dracula turn into to fly?", o: ["A bat", "A wolf", "A cloud of mist", "A raven"], a: 0, x: "Classic Dracula bat transformation."},
+    {q: "Who is the werewolf dad overwhelmed by his huge litter of kids?", o: ["Wayne", "Murray", "Griffin", "Blobby"], a: 0, x: "Wayne, married to Wanda."},
+    {q: "In the second film, what turns out to be slow to develop in Dennis, Mavis and Johnny's son?", o: ["His fangs", "His flying", "His howl", "His invisibility"], a: 0, x: "His fangs come in late, which drives the plot."},
+    {q: "What kind of vessel is the setting for the third film?", o: ["A monster cruise ship", "A haunted train", "A space station", "A submarine"], a: 0, x: "A monster cruise where Dracula falls for the captain."}]},
   us:{n:"Us",d:"talk, don't score",q:[
     {q:"Who is more likely to text first after a fight?",o:["Me","Them","Dead tie","Neither, tragically"],a:2,x:"No right answer — argue about it."},
     {q:"Whose taste in films do you secretly trust more?",o:["Mine","Theirs","Depends on genre","Neither"],a:2,x:"The honest answer is usually 'depends'."},
